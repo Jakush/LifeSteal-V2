@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 public class HealthManager implements CommandExecutor {
 	
@@ -20,36 +21,60 @@ public class HealthManager implements CommandExecutor {
 
 	@SuppressWarnings({ "deprecation", "unlikely-arg-type" })
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (args.length == 1) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		if (args.length == 0) {
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7HELP"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7You can use /ls, /lifesteal or /lfs to use plugin commands."));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal reload &a(Reload config.yml)"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal author &a(Shows who is author)"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal spigotmc &a(Sends where plugin can be downloaded)"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal send &a(You can send some of your hearts to other player)"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal recipe&c/&7showrecipe &a(Show recipe ingame)"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal help &a(Send all available commands)"));
+			return true;
+		}
+
+		if (!(sender instanceof Player)) {
+			lifesteal.getLogger().severe("You are not player!");
+			return false;
+		}
+
 		if (sender.hasPermission("lifesteal.admin")) {
-			if (args[0].equalsIgnoreCase("set")) {
-		        final Player target = Bukkit.getPlayer(args[1]);
-		        if (target != null) {
-		        	if (args[2] != null) {
-		        		
-		        		if (Integer.valueOf(args[2]) < 41) {
-		        			
-			        		Double amount = Double.valueOf(args[2]);
-			        		
-			        		target.setMaxHealth(amount);
-			        		
-			        		lifesteal.getConfig().set("player." + target.getName(), amount);
-			        		
-			        		lifesteal.saveConfig();
-			        		
-			        		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.changed_amount_of_health")));
-		        		} else {
-		        			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.too_big_amount_of_hearts")));
-		        		}
-		        		
-		        	} else {
-		        		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.amount_not_exist")));
-		        	}
-		        } else {
-		        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7Target was cannot be finded."));
-		        }
-			} 
+			// If args length one, not enough arguments
+			if (args.length == 1) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Invalid use. &c/lifesteal help &7for more."));
+				return false;
+			}
+			// If arg[1] is "set"
+			if (args[0].equals("set")) {
+				final Player target = Bukkit.getPlayer(args[1]);
+				if (target == null) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7Target was cannot be finded."));
+					return false;
+				}
+				// If args.length is bigger or smaller than 2
+				if (!(args.length == 2)) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.amount_not_exist")));
+					return false;
+				}
+				// If args[2] are not under 40 hearts (arg[2] are bigger)
+				if (!((Integer.parseInt(args[2])) < 41)) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.too_big_amount_of_hearts")));
+					return false;
+				}
+				// Get amount of hearts in command
+				Double amount = Double.valueOf(args[2]);
+				// Set amount of hearts
+				target.setMaxHealth(amount);
+				// Type it in config new amount and save config (saveConfig is very important)!
+				lifesteal.getConfig().set("player." + target.getName(), amount);
+				lifesteal.saveConfig();
+				// Message
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.changed_amount_of_health")));
+				return false;
+
+			}
 			else if (args[0].equalsIgnoreCase("reload")) {
 				
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.config_reloaded")));
@@ -252,28 +277,6 @@ public class HealthManager implements CommandExecutor {
 		else {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.without_perm")));
 		}
-	} else if (args.length == 0){
-		
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7HELP"));
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7You can use /ls, /lifesteal or /lfs to use plugin commands."));
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)"));
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal reload &a(Reload config.yml)"));
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal author &a(Shows who is author)"));
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal spigotmc &a(Sends where plugin can be downloaded)"));
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal send &a(You can send some of your hearts to other player)"));
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal recipe&c/&7showrecipe &a(Show recipe ingame)"));
-			
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifesteal help &a(Send all available commands)"));
-					
-	}
 	return false;
 	}
 }
