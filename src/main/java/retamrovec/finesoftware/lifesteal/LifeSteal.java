@@ -66,7 +66,8 @@ public class LifeSteal extends JavaPlugin implements Listener {
                 }
             }
         });
-		new Metrics(this, 102599);
+		int pluginId = 102599;
+		Metrics metrics = new Metrics(this, pluginId);
 	}
 	
 	public void onDisable() {
