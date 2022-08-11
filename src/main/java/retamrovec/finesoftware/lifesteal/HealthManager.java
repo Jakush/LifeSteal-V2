@@ -19,8 +19,8 @@ public class HealthManager implements CommandExecutor {
 		this.ccm = ccm;
 	}
 
-	@SuppressWarnings({ "deprecation", "unlikely-arg-type" })
 	@Override
+	@Deprecated
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 		if (args.length == 0) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7HELP"));
@@ -46,7 +46,7 @@ public class HealthManager implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Invalid use. &c/lifesteal help &7for more."));
 				return false;
 			}
-			// If arg[1] is "set"
+			// If arg[0] is "set"
 			if (args[0].equals("set")) {
 				final Player target = Bukkit.getPlayer(args[1]);
 				if (target == null) {
@@ -74,33 +74,45 @@ public class HealthManager implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.changed_amount_of_health")));
 				return true;
 			}
+			// If args[0] is "reload"
 			if (args[0].equalsIgnoreCase("reload")) {
+				// Loops through every online player, command is deprecated because, this can make massive lags if you have many people joined on server.
 				for (Player player : Bukkit.getOnlinePlayers()) {
+					// Get amount of hearts in config
 					Double amount = Double.valueOf(lifesteal.getConfig().getInt("player." + player.getName()));
+					// If hearts are bigger than 40
 					if (amount > 40) {
+						// Set amount of hearts to 20
+						player.setMaxHealth(20);
+						// Reset amount of hearts in config (saveConfig is very important)!
 						lifesteal.getConfig().set("player." + player.getName(), 20);
 						lifesteal.saveConfig();
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.too_much_hearts")));
 					}
 					else {
+						// Set amount of hearts to new amount of hearts in config
 						player.setMaxHealth(amount);
 					}
 				}
+				// Remove recipe (important, removing this cause bugs)
 				Bukkit.getServer().removeRecipe(ccm.getRecipe(lifesteal));
+				// Register recipe "lifesteal" is main class because this method needs main class
 				ccm.registerRecipe(lifesteal);
+				// Reloads configuration (that's what should /lifesteal reload do)
 				lifesteal.reloadConfig();
+				// Message
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.config_reloaded")));
 				return true;
 			}
-			else if (args[0].equalsIgnoreCase("author")) {
-				
+			if (args[0].equalsIgnoreCase("author")) {
+				// Message
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7Author of this plugin is &aDiskotekaSTARM&7. Ingame nick is &aRETAMROVEC&7."));
-				
+				return true;
 			}
-			else if (args[0].equalsIgnoreCase("spigotmc")) {
-				
+			if (args[0].equalsIgnoreCase("spigotmc")) {
+				// Message
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7This plugin is on &aSPIGOTMC&7 and link is: &9https://www.spigotmc.org/resources/lifesteal.102599/&7."));
-				
+				return true;
 			}
 			else if (args[0].equalsIgnoreCase("send")) {
 		        final Player target = Bukkit.getPlayer(args[1]);
