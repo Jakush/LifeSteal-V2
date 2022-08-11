@@ -1,10 +1,11 @@
-retamrovec\finesoftware\lifesteal\PlayerDeathListener.class
 retamrovec\finesoftware\lifesteal\CraftItemListener.class
 retamrovec\finesoftware\lifesteal\CustomCraftingGUI.class
 retamrovec\finesoftware\lifesteal\HealthManager.class
+retamrovec\finesoftware\lifesteal\PlayerJoinListener.class
+retamrovec\finesoftware\lifesteal\CustomCraftingManager.class
+retamrovec\finesoftware\lifesteal\PlayerDeathListener.class
 retamrovec\finesoftware\lifesteal\HealthManagerTab.class
 retamrovec\finesoftware\lifesteal\InventoryClickListener.class
 retamrovec\finesoftware\lifesteal\UpdateChecker.class
-retamrovec\finesoftware\lifesteal\PlayerJoinListener.class
+retamrovec\finesoftware\lifesteal\Message.class
 retamrovec\finesoftware\lifesteal\LifeSteal.class
-retamrovec\finesoftware\lifesteal\CustomCraftingManager.class
