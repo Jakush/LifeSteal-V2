@@ -11,11 +11,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 public class LifeSteal extends JavaPlugin implements Listener {
 
-	private final String version = getDescription().getVersion();
+	private final PluginDescriptionFile pdf = this.getDescription();
+	private final String version = pdf.getVersion();
 	public void onEnable() {
 		CustomCraftingGUI CustomCraftingGUI = new CustomCraftingGUI(this);
 		CustomCraftingManager CustomCraftingManager = new CustomCraftingManager(this);
@@ -32,7 +34,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
 		saveConfig();
-		getConfig().set("plugin.version", this.version);
+		getConfig().set("plugin.version", version);
 		saveConfig();
 		getLogger().info("Config.yml was generated..");
 		String configVersion = getConfig().getString("plugin.version");

@@ -1,6 +1,7 @@
 main: retamrovec.finesoftware.lifesteal.LifeSteal
 name: Fine-LifeSteal
-version: 1.19-V8
+version: 1.19-V8.1
+api-version: 1.18
 author: RETAMROVEC
 commands:
   lifesteal:
