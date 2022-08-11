@@ -17,6 +17,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class LifeSteal extends JavaPlugin implements Listener {
 	
 	public void onEnable() {
+		CustomCraftingGUI CustomCraftingGUI = new CustomCraftingGUI(this);
+		CustomCraftingManager CustomCraftingManager = new CustomCraftingManager(this);
+		Message Message = new Message();
 		getLogger().severe(ChatColor.translateAlternateColorCodes('&', "Version (" + "${java.version}" + ") has been enabled."));
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerDeathListener(this), this);
@@ -24,7 +27,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		pm.registerEvents(new PlayerJoinListener(this), this);
 		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this)), this);
 		pm.registerEvents(this, this);
-		getCommand("lifesteal").setExecutor(new HealthManager(this, new CustomCraftingGUI(this), new CustomCraftingManager(this)));
+		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, CustomCraftingManager, Message));
 		getCommand("lifesteal").setTabCompleter(new HealthManagerTab(this));
 		registerConfig();
 		getConfig().options().copyDefaults(true);
