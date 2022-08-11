@@ -13,14 +13,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 public class LifeSteal extends JavaPlugin implements Listener {
-	
+
+	private final String version = getDescription().getVersion();
 	public void onEnable() {
 		CustomCraftingGUI CustomCraftingGUI = new CustomCraftingGUI(this);
 		CustomCraftingManager CustomCraftingManager = new CustomCraftingManager(this);
 		Message Message = new Message();
-		getLogger().severe(ChatColor.translateAlternateColorCodes('&', "Version (" + "${java.version}" + ") has been enabled."));
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerDeathListener(this), this);
 		pm.registerEvents(new CraftItemListener(this), this);
@@ -33,32 +32,35 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
 		saveConfig();
-		getConfig().set("plugin.version", "${java.version}");
+		getConfig().set("plugin.version", this.version);
 		saveConfig();
 		getLogger().info("Config.yml was generated..");
-		
+		String configVersion = getConfig().getString("plugin.version");
+		getLogger().info(ChatColor.translateAlternateColorCodes('&', "Version (" + configVersion + ") has been enabled."));
+
 		CustomCraftingManager ccm = new CustomCraftingManager(this);
 		ccm.registerRecipe(this);
-		
+
         new UpdateChecker(this, 102599, this).getVersion(version -> {
-            if ("${java.version}".equals(version)) {
+            if (configVersion.equals(version)) {
                 getLogger().info("Plugin version is the latest");
                 if (this.getConfig().getBoolean("developer.enable")) {
                 	getLogger().info("Latest version is " + version);
-                	getLogger().info("Your version is " + "${java.version}");
+                	getLogger().info("Your version is " + configVersion);
                 }
-            } else if (!"${java.version}".equals(version)){
+            } else {
                 getLogger().info("Plugin version is not latest. Please update this plugin.");
                 if (this.getConfig().getBoolean("developer.enable")) {
                 	getLogger().info("Latest version is " + version);
-                	getLogger().info("Your version is " + "${java.version}");
+                	getLogger().info("Your version is " + configVersion);
                 }
             }
         });
 	}
 	
 	public void onDisable() {
-		getLogger().severe("Version (" + "${java.version}" + ") has been disabled.");
+		String configVersion = getConfig().getString("plugin.version");
+		getLogger().severe("Version (" + configVersion + ") has been disabled.");
 		saveConfig();
 	}
 
@@ -87,9 +89,10 @@ public class LifeSteal extends JavaPlugin implements Listener {
 	@EventHandler (priority = EventPriority.HIGH)
 	private void onJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
+		String configVersion = getConfig().getString("plugin.version");
 		if (player.isOp() || player.hasPermission("lifesteal.admin")) {
 	        new UpdateChecker(this, 102599, this).getVersion(version -> {
-	            if (!"${java.version}".equals(version)) {
+	            if (!configVersion.equals(version)) {
 	                if (this.getConfig().getBoolean("config.notify_op_updates") == true) {
 		                player.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.update_available_notify")));
 	                }
