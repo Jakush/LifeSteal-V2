@@ -72,36 +72,25 @@ public class HealthManager implements CommandExecutor {
 				lifesteal.saveConfig();
 				// Message
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.changed_amount_of_health")));
-				return false;
-
+				return true;
 			}
-			else if (args[0].equalsIgnoreCase("reload")) {
-				
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.config_reloaded")));
-				
-				Bukkit.getServer().removeRecipe(ccm.getRecipe(lifesteal));
-				
-				ccm.registerRecipe(lifesteal);
-				
-				lifesteal.reloadConfig();
-				
-				for (Player server : Bukkit.getOnlinePlayers()) {
-					
-					Double amount = Double.valueOf(lifesteal.getConfig().getInt("player." + server.getName()));
-										
+			if (args[0].equalsIgnoreCase("reload")) {
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					Double amount = Double.valueOf(lifesteal.getConfig().getInt("player." + player.getName()));
 					if (amount > 40) {
-						lifesteal.getConfig().set("player." + server.getName(), 20);
-						
-						server.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.too_much_hearts")));
+						lifesteal.getConfig().set("player." + player.getName(), 20);
+						lifesteal.saveConfig();
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.too_much_hearts")));
 					}
 					else {
-						
-						server.setMaxHealth(amount);
-
+						player.setMaxHealth(amount);
 					}
-					
 				}
-				
+				Bukkit.getServer().removeRecipe(ccm.getRecipe(lifesteal));
+				ccm.registerRecipe(lifesteal);
+				lifesteal.reloadConfig();
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.config_reloaded")));
+				return true;
 			}
 			else if (args[0].equalsIgnoreCase("author")) {
 				
