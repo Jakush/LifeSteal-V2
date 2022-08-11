@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -65,6 +66,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
                 }
             }
         });
+		new Metrics(this, 102599);
 	}
 	
 	public void onDisable() {
