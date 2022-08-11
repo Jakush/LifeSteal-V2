@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 public class HealthManagerTab implements TabCompleter {
 	
@@ -19,22 +20,28 @@ public class HealthManagerTab implements TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		final List<String> tabcompleterarray = new ArrayList<String>();
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		final List<String> tab = new ArrayList<>();
 		
 		if (args.length == 1) {
-			return StringUtil.copyPartialMatches(args[0], Arrays.asList("author","help","reload","spigotmc","set","send","recipe","showrecipe"), tabcompleterarray);
-		} else if (args.length == 2) {
+			return StringUtil.copyPartialMatches(args[0], Arrays.asList("author","help","reload","spigotmc","set","send","recipe","showRecipe"), tab);
+		}
+		if (args.length == 2) {
 			List<String> names = new ArrayList<>();
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				names.add(player.getName());
 			}
-			return StringUtil.copyPartialMatches(args[1], names, tabcompleterarray);
-		} else if (args.length == 3) {
-			return StringUtil.copyPartialMatches(args[2], Arrays.asList("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"), new ArrayList<>());
+			return StringUtil.copyPartialMatches(args[1], names, tab);
+		}
+		if (args.length == 3) {
+			List<String> num = new ArrayList<>();
+			for (int i = 1; i < 40; i++) {
+				num.add(String.valueOf(i));
+			}
+			return StringUtil.copyPartialMatches(args[2], num, tab);
 		}
 		
-		return tabcompleterarray;
+		return tab;
 	}
 
 }
