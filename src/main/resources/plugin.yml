@@ -1,0 +1,10 @@
+main: retamrovec.finesoftware.lifesteal.LifeSteal
+name: Fine-LifeSteal
+version: 1.19-V8
+api-version: 1.17
+author: RETAMROVEC
+commands:
+  lifesteal:
+    aliases:
+    - ls
+    - lfs
