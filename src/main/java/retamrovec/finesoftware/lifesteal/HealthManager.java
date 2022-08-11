@@ -52,11 +52,6 @@ public class HealthManager implements CommandExecutor {
 
 		// If sender has permission lifeSteal.admin
 		if (sender.hasPermission("lifeSteal.admin")) {
-			// If args length one, not enough arguments
-			if (args.length == 1) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Invalid use. &c/lifeSteal help &7for more."));
-				return false;
-			}
 			// If arg[0] are "set"
 			if (args[0].equals("set")) {
 				final Player target = Bukkit.getPlayer(args[1]);
@@ -141,6 +136,15 @@ public class HealthManager implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)"));
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7/lifeSteal help &a(Send all available commands)"));
 				return true;
+			}
+			// If args[0] are "version" or "ver"
+			if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("ver")) {
+				// UpdateChecker (for latest version by spigot api)
+				new UpdateChecker(lifesteal, 102599, lifesteal).getVersion(version -> {
+					// Messages
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Latest version is &6" + version + "&7."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Your plugin version is &6" + lifesteal.version + "&7."));
+				});
 			}
 		}
 		// If sender has permission lifeSteal.send

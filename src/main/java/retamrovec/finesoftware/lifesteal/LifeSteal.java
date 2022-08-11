@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,10 +15,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+
 public class LifeSteal extends JavaPlugin implements Listener {
 
-	private final PluginDescriptionFile pdf = this.getDescription();
-	private final String version = pdf.getVersion();
+	public final PluginDescriptionFile pdf = this.getDescription();
+	public final String version = pdf.getVersion();
+	private final String configVersion = getConfig().getString("plugin.version");
 	public void onEnable() {
 		CustomCraftingGUI CustomCraftingGUI = new CustomCraftingGUI(this);
 		CustomCraftingManager CustomCraftingManager = new CustomCraftingManager(this);
@@ -30,6 +34,10 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		pm.registerEvents(this, this);
 		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, CustomCraftingManager, Message));
 		getCommand("lifesteal").setTabCompleter(new HealthManagerTab(this));
+		if (configVersion == null || getConfig().getString("plugin.version").isEmpty()) {
+			Bukkit.getPluginManager().disablePlugin(this);
+			getLogger().info("Restart server for functionality.");
+		}
 		registerConfig();
 		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
@@ -37,7 +45,6 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		getConfig().set("plugin.version", version);
 		saveConfig();
 		getLogger().info("Config.yml was generated..");
-		String configVersion = getConfig().getString("plugin.version");
 		getLogger().info(ChatColor.translateAlternateColorCodes('&', "Version (" + configVersion + ") has been enabled."));
 
 		CustomCraftingManager ccm = new CustomCraftingManager(this);
@@ -89,7 +96,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
     }
 	
 	@EventHandler (priority = EventPriority.HIGH)
-	private void onJoin(PlayerJoinEvent e) {
+	private void onJoin(@NotNull PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 		String configVersion = getConfig().getString("plugin.version");
 		if (player.isOp() || player.hasPermission("lifesteal.admin")) {
