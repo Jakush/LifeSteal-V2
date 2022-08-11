@@ -3,6 +3,9 @@
 #
 # You can get API from plugin to recipe.
 # You just need to add latest version to your plugin.
-# Then, type in onEnable() this, LifeSteal lifesteal = (LifeSteal) Bukkit.getPluginManager().getPlugin("Fine-LifeSteal");
-# All available methods:
-# Plugin#getRecipe
+# Then, type in 
+```java 
+onEnable() this, LifeSteal lifesteal = (LifeSteal) Bukkit.getPluginManager().getPlugin("Fine-LifeSteal");
+```
+## All available methods:
+getRecipe(); - returns 9 Materials used in config.
