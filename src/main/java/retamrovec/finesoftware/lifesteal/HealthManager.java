@@ -56,8 +56,19 @@ public class HealthManager implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.without_perm")));
 				return false;
 			}
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.valueOf(lifesteal.getConfig().getStringList("messages.help"))));
-			return true;
+			/* @Deprecated
+			 (replacing [ and ] with air, and making \n with new line, doesn't work, and in development status!
+			 message.colorCodes(sender, message.replace("[", "]", "\n", "", "", " ", "messages.help", lifesteal));
+			 */
+			message.colorCodes(sender, "&cLS &a>> &7HELP");
+			message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
+			message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
+			message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
+			message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
+			message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
+			message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
+			message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
+			message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");			return true;
 		}
 		// Command /lifesteal set
 		if (args[0].equalsIgnoreCase("set")) {
