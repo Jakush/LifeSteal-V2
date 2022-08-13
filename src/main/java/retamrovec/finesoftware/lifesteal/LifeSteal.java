@@ -3,7 +3,11 @@ package retamrovec.finesoftware.lifesteal;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,11 +19,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class LifeSteal extends JavaPlugin implements Listener {
 
+	private static final Logger log = Logger.getLogger("Minecraft");
+	private static Economy econ = null;
+	private static Permission perms = null;
+	private static Chat chat = null;
 	public final PluginDescriptionFile pdf = this.getDescription();
 	public final String version = pdf.getVersion();
 	private final String configVersion = getConfig().getString("plugin.version");
@@ -39,6 +48,8 @@ public class LifeSteal extends JavaPlugin implements Listener {
 			Bukkit.getPluginManager().disablePlugin(this);
 			getLogger().info("Restart server for functionality.");
 		}
+		setupChat();
+		setupPermissions();
 		registerConfig();
 		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
@@ -75,6 +86,29 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		getLogger().severe("Version (" + configVersion + ") has been disabled.");
 		saveConfig();
 	}
+	private boolean setupChat() {
+		RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+		if (rsp == null) {
+			getLogger().warning("Chat plugin was not found! Disabling {prefix} and {suffix} features.");
+			return false;
+		}
+		chat = rsp.getProvider();
+		return chat != null;
+	}
+
+	private boolean setupPermissions() {
+		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+		perms = rsp.getProvider();
+		return perms != null;
+	}
+	public Chat getChat() {
+		return chat;
+	}
+
+	public Permission getPermissions() {
+		return perms;
+	}
+
 
 	public List<Material> getRecipe() {
 		List<Material> recipe = new ArrayList<>();

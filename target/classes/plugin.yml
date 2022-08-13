@@ -3,6 +3,7 @@ name: Fine-LifeSteal
 version: 1.19-V8.3
 api-version: 1.18
 author: RETAMROVEC
+depend: [ Vault ]
 commands:
   lifesteal:
     aliases:

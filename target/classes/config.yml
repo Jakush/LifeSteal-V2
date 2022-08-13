@@ -46,6 +46,16 @@ messages:
   hearts_get: '&cLS &a>> &7You get &c{amount} &7hearts from &a{sender}&7.'
   hearts_sent: '&cLS &a>> &7You sent &c{amount} &7hearts to &a{target}&7.'
   recipe_showed: '&cLS &a>> &7Recipe has been showed.'
+  help:
+    - '&cLS &a>> &7HELP\n'
+    - '&7You can use /ls, /lifesteal or /lfs to use plugin commands.\n'
+    - '&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)\n'
+    - '&7/lifesteal reload &a(Reload config.yml)\n'
+    - '&7/lifesteal author &a(Shows who is author)\n'
+    - '&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)\n'
+    - '&7/lifeSteal send &a(You can send some of your hearts to other player)\n'
+    - '&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)\n'
+    - '&7/lifeSteal help &a(Send all available commands)'
 config:
   #
   # True = yes
