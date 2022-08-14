@@ -1,4 +1,4 @@
-package retamrovec.finesoftware.lifesteal;
+package retamrovec.finesoftware.lifesteal.Command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -7,6 +7,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
+import retamrovec.finesoftware.lifesteal.*;
+import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingGUI;
+import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingManager;
+import retamrovec.finesoftware.lifesteal.Manager.Message;
+import retamrovec.finesoftware.lifesteal.Manager.UpdateChecker;
 
 public class HealthManager implements CommandExecutor {
 

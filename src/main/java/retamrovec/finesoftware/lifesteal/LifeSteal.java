@@ -22,6 +22,16 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import retamrovec.finesoftware.lifesteal.Command.HealthManager;
+import retamrovec.finesoftware.lifesteal.Command.HealthManagerTab;
+import retamrovec.finesoftware.lifesteal.Listeners.CraftItemListener;
+import retamrovec.finesoftware.lifesteal.Listeners.InventoryClickListener;
+import retamrovec.finesoftware.lifesteal.Listeners.PlayerDeathListener;
+import retamrovec.finesoftware.lifesteal.Listeners.PlayerJoinListener;
+import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingGUI;
+import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingManager;
+import retamrovec.finesoftware.lifesteal.Manager.Message;
+import retamrovec.finesoftware.lifesteal.Manager.UpdateChecker;
 
 public class LifeSteal extends JavaPlugin implements Listener {
 
@@ -62,22 +72,25 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		CustomCraftingManager ccm = new CustomCraftingManager(this);
 		ccm.registerRecipe(this);
 
-        new UpdateChecker(this, 102599, this).getVersion(version -> {
-            if (configVersion.equals(version)) {
-                getLogger().info("Plugin version is the latest");
-                if (this.getConfig().getBoolean("developer.enable")) {
-                	getLogger().info("Latest version is " + version);
-                	getLogger().info("Your version is " + configVersion);
-                }
-            } else {
-                getLogger().info("Plugin version is not latest. Please update this plugin.");
-                if (this.getConfig().getBoolean("developer.enable")) {
-                	getLogger().info("Latest version is " + version);
-                	getLogger().info("Your version is " + configVersion);
-                }
-            }
-        });
-		int pluginId = 102599;
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+
+		new UpdateChecker(this, 102599, this).getVersion(version -> {
+			if (configVersion.equals(version)) {
+				getLogger().info("Plugin version is the latest");
+			} else {
+				getLogger().info("Plugin version is not latest. Please update this plugin.");
+			}
+			if (this.getConfig().getBoolean("developer.enable")) {
+				getLogger().info("Latest version is " + version);
+				getLogger().info("Your version is " + configVersion);
+			}
+		});
+
+		int pluginId = 16131;
 		Metrics metrics = new Metrics(this, pluginId);
 	}
 	

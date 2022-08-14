@@ -1,7 +1,8 @@
-package retamrovec.finesoftware.lifesteal;
+package retamrovec.finesoftware.lifesteal.Manager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import retamrovec.finesoftware.lifesteal.LifeSteal;
 
 import java.io.IOException;
 import java.io.InputStream;

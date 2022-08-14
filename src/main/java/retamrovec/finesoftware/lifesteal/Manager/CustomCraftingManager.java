@@ -1,4 +1,4 @@
-package retamrovec.finesoftware.lifesteal;
+package retamrovec.finesoftware.lifesteal.Manager;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import retamrovec.finesoftware.lifesteal.LifeSteal;
 
 public class CustomCraftingManager {
 	

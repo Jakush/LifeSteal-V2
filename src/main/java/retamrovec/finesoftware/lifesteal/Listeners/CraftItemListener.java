@@ -1,4 +1,4 @@
-package retamrovec.finesoftware.lifesteal;
+package retamrovec.finesoftware.lifesteal.Listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import retamrovec.finesoftware.lifesteal.LifeSteal;
 
 public class CraftItemListener implements Listener {
 	

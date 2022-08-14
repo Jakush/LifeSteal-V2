@@ -1,4 +1,4 @@
-package retamrovec.finesoftware.lifesteal;
+package retamrovec.finesoftware.lifesteal.Command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +11,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import retamrovec.finesoftware.lifesteal.LifeSteal;
 
 public class HealthManagerTab implements TabCompleter {
 	
