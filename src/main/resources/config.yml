@@ -42,6 +42,7 @@ messages:
   # {target} = player, you giving a heart - work for one message (hearts_send
   # {sender} = player, who gived you a heart - work for one message (hearts_get)
   # {amount} = gived amount of hearts - work for both messages (hearts_sent & hearts_get)
+  # In both messages you can use {prefix} and {suffix}, so for example, in hearts.get you can get sender's prefix and suffix.
   #
   hearts_get: '&cLS &a>> &7You get &c{amount} &7hearts from &a{sender}&7.'
   hearts_sent: '&cLS &a>> &7You sent &c{amount} &7hearts to &a{target}&7.'
