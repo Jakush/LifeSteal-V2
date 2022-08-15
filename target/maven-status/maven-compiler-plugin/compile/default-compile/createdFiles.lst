@@ -2,6 +2,7 @@ retamrovec\finesoftware\lifesteal\Command\HealthManager.class
 retamrovec\finesoftware\lifesteal\Manager\Message.class
 retamrovec\finesoftware\lifesteal\Command\HealthManagerTab.class
 retamrovec\finesoftware\lifesteal\Manager\UpdateChecker.class
+retamrovec\finesoftware\lifesteal\Listeners\CommandUseEvent2.class
 retamrovec\finesoftware\lifesteal\Listeners\PlayerJoinListener.class
 retamrovec\finesoftware\lifesteal\Listeners\InventoryClickListener.class
 retamrovec\finesoftware\lifesteal\Listeners\CraftItemListener.class

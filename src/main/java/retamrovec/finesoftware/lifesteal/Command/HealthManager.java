@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.*;
+import retamrovec.finesoftware.lifesteal.Listeners.CommandUseEvent2;
 import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingGUI;
 import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingManager;
 import retamrovec.finesoftware.lifesteal.Manager.Message;
@@ -41,15 +42,17 @@ public class HealthManager implements CommandExecutor {
 			 (replacing [ and ] with air, and making \n with new line, doesn't work, and in development status!
 			 message.colorCodes(sender, message.replace("[", "]", "\n", "", "", " ", "messages.help", lifesteal));
 			 */
-			message.colorCodes(sender, "&cLS &a>> &7HELP");
-			message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
-			message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
-			message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
-			message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
-			message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
-			message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
-			message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
-			message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
+			Message.colorCodes(sender, "&cLS &a>> &7HELP");
+			Message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
+			Message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
+			Message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
+			Message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
+			Message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
+			Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
+			Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
+			Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
+			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 
@@ -65,15 +68,18 @@ public class HealthManager implements CommandExecutor {
 			 (replacing [ and ] with air, and making \n with new line, doesn't work, and in development status!
 			 message.colorCodes(sender, message.replace("[", "]", "\n", "", "", " ", "messages.help", lifesteal));
 			 */
-			message.colorCodes(sender, "&cLS &a>> &7HELP");
-			message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
-			message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
-			message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
-			message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
-			message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
-			message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
-			message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
-			message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");			return true;
+			Message.colorCodes(sender, "&cLS &a>> &7HELP");
+			Message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
+			Message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
+			Message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
+			Message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
+			Message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
+			Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
+			Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
+			Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
+			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			return true;
 		}
 		// Command /lifesteal set
 		if (args[0].equalsIgnoreCase("set")) {
@@ -84,7 +90,7 @@ public class HealthManager implements CommandExecutor {
 				return false;
 			}
 			// If args are bigger or smaller than 2
-			if (!(args.length == 2)) {
+			if (!(args.length == 3)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.amount_not_exist")));
 				return false;
 			}
@@ -96,7 +102,7 @@ public class HealthManager implements CommandExecutor {
 				return false;
 			}
 			// If args[2] are not under 40 hearts (arg[2] are bigger)
-			if (!((Integer.parseInt(args[2])) < 41)) {
+			if (Integer.parseInt(args[2]) > 40) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.too_big_amount_of_hearts")));
 				return false;
 			}
@@ -109,6 +115,8 @@ public class HealthManager implements CommandExecutor {
 			lifesteal.saveConfig();
 			// Message
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.changed_amount_of_health")));
+			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 		// Command /lifesteal reload
@@ -130,7 +138,7 @@ public class HealthManager implements CommandExecutor {
 					// Reset amount of hearts in config (saveConfig is very important)!
 					lifesteal.getConfig().set("player." + player.getName(), 20);
 					lifesteal.saveConfig();
-					message.colorCodes(player, lifesteal.getConfig().getString("error.too_much_hearts"));
+					Message.colorCodes(player, lifesteal.getConfig().getString("error.too_much_hearts"));
 				} else {
 					// Set amount of hearts to new amount of hearts in config
 					player.setMaxHealth(amount);
@@ -143,7 +151,9 @@ public class HealthManager implements CommandExecutor {
 			// Reloads configuration (that's what should /lifeSteal reload do)
 			lifesteal.reloadConfig();
 			// Message
-			message.colorCodes(sender, lifesteal.getConfig().getString("messages.config_reloaded"));
+			Message.colorCodes(sender, lifesteal.getConfig().getString("messages.config_reloaded"));
+			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 		// Command /lifesteal author
@@ -151,7 +161,7 @@ public class HealthManager implements CommandExecutor {
 			// If sender has permission lifesteal.admin
 			if (!lifesteal.getPermissions().has(sender, "lifesteal.admin")) {
 				// Message
-				message.colorCodes(sender, lifesteal.getConfig().getString("error.without_perm"));
+				Message.colorCodes(sender, lifesteal.getConfig().getString("error.without_perm"));
 				return false;
 			}
 			// Message
@@ -162,11 +172,13 @@ public class HealthManager implements CommandExecutor {
 		if (args[0].equalsIgnoreCase("spigotMC")) {
 			if (!lifesteal.getPermissions().has(sender, "lifesteal.admin")) {
 				// Message
-				message.colorCodes(sender, lifesteal.getConfig().getString("error.without_perm"));
+				Message.colorCodes(sender, lifesteal.getConfig().getString("error.without_perm"));
             	return false;
 			}
 			// Message
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7This plugin is on &aSpigotMC&7 and link is: &9https://www.spigotmc.org/resources/lifesteal.102599/&7."));
+			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 		// If args[0] are "version" or "ver"
@@ -183,6 +195,8 @@ public class HealthManager implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Latest version is &6" + version + "&7."));
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Your plugin version is &6" + lifesteal.version + "&7."));
 			});
+			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 		// Command /lifesteal send
@@ -234,6 +248,8 @@ public class HealthManager implements CommandExecutor {
 			// Messages with placeholders {target}, {sender}, {amount}, {prefix} and {suffix}
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{target}", "{amount}", "{suffix}", "{prefix}", target.getName(), args[2],lifesteal.getChat().getPlayerPrefix(target),lifesteal.getChat().getPlayerSuffix(target), "messages.hearts_sent", lifesteal)));
 			target.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{sender}", "{amount}", "{suffix}", "{prefix}", sender.getName(), args[2],lifesteal.getChat().getPlayerPrefix(senderPlayer),lifesteal.getChat().getPlayerSuffix(senderPlayer), "messages.hearts_sent", lifesteal)));
+			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 		if (args[0].equalsIgnoreCase("recipe") || args[0].equalsIgnoreCase("showrecipe")) {
@@ -250,21 +266,25 @@ public class HealthManager implements CommandExecutor {
 			ccg.OpenInventory(player);
 			// Message
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.recipe_showed")));
+			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 			/* @Deprecated
 			 (replacing [ and ] with air, and making \n with new line, doesn't work, and in development status!
 			 message.colorCodes(sender, message.replace("[", "]", "\n", "", "", " ", "messages.help", lifesteal));
 			 */
-		message.colorCodes(sender, "&cLS &a>> &7HELP");
-		message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
-		message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
-		message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
-		message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
-		message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
-		message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
-		message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
-		message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
+		Message.colorCodes(sender, "&cLS &a>> &7HELP");
+		Message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
+		Message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
+		Message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
+		Message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
+		Message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
+		Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
+		Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
+		Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
+		CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
+		Bukkit.getPluginManager().callEvent(commandUseEvent);
 		return false;
 	}
 }

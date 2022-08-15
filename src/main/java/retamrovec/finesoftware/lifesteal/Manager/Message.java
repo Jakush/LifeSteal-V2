@@ -4,7 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
 
 public class Message {
@@ -37,11 +36,11 @@ public class Message {
     }
 
     @Deprecated
-    public void colorCodes(@NotNull CommandSender sender, @NotNull String message) {
+    public static void colorCodes(@NotNull CommandSender sender, @NotNull String message) {
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
-    public void colorCodes(@NotNull Player player, @NotNull String message) {
+    public static void colorCodes(@NotNull Player player, @NotNull String message) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
