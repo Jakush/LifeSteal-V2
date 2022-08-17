@@ -31,6 +31,7 @@ error:
     you can write is 40.'
   cant_withdraw_to_yourself: '&cLS &a>> &7Cant withdraw hearts to yourself. You must withdraw to any player, but not you.'
   cannot_use_command: '&cLS &a>> &7You can´t use this command as console.'
+  player-is-alive: '&cLS &a>> &7This player is already live.'
 messages:
   changed_amount_of_health: '&cLS &a>> &7Amount of health has been changed.'
   heart_get: '&cLS &a>> &7You get one new heart.'
@@ -42,6 +43,7 @@ messages:
   # {target} = player, you giving a heart - work for one message (hearts_send
   # {sender} = player, who gived you a heart - work for one message (hearts_get)
   # {amount} = gived amount of hearts - work for both messages (hearts_sent & hearts_get)
+  # In both messages you can use {prefix} and {suffix}, so for example, in hearts.get you can get sender's prefix and suffix.
   #
   hearts_get: '&cLS &a>> &7You get &c{amount} &7hearts from &a{sender}&7.'
   hearts_sent: '&cLS &a>> &7You sent &c{amount} &7hearts to &a{target}&7.'
@@ -56,6 +58,7 @@ messages:
     - '&7/lifeSteal send &a(You can send some of your hearts to other player)\n'
     - '&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)\n'
     - '&7/lifeSteal help &a(Send all available commands)'
+  player-revived: '&cLS &a>> &7You revived player &c{player}&7.'
 config:
   #
   # True = yes

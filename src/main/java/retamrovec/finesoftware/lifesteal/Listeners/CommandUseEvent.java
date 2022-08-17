@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandUseEvent2 extends Event implements Cancellable {
+public class CommandUseEvent extends Event implements Cancellable {
     /*
 
     CUSTOM API EVENT STILL IN PROGRESS.
@@ -18,7 +18,7 @@ public class CommandUseEvent2 extends Event implements Cancellable {
     private final String[] args;
     private boolean cancelled;
 
-    public CommandUseEvent2(CommandSender sender, String[] args) {
+    public CommandUseEvent(CommandSender sender, String[] args) {
         cancelled = false;
         this.sender = sender;
         this.args = args;

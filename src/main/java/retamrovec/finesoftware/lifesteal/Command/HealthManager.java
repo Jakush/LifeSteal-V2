@@ -1,6 +1,8 @@
 package retamrovec.finesoftware.lifesteal.Command;
 
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.*;
-import retamrovec.finesoftware.lifesteal.Listeners.CommandUseEvent2;
+import retamrovec.finesoftware.lifesteal.Listeners.CommandUseEvent;
 import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingGUI;
 import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingManager;
 import retamrovec.finesoftware.lifesteal.Manager.Message;
@@ -51,8 +53,10 @@ public class HealthManager implements CommandExecutor {
 			Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
 			Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
 			Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
-			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
 
@@ -77,8 +81,10 @@ public class HealthManager implements CommandExecutor {
 			Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
 			Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
 			Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
-			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
 		// Command /lifesteal set
@@ -115,8 +121,10 @@ public class HealthManager implements CommandExecutor {
 			lifesteal.saveConfig();
 			// Message
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.changed_amount_of_health")));
-			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
 		// Command /lifesteal reload
@@ -152,8 +160,10 @@ public class HealthManager implements CommandExecutor {
 			lifesteal.reloadConfig();
 			// Message
 			Message.colorCodes(sender, lifesteal.getConfig().getString("messages.config_reloaded"));
-			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
 		// Command /lifesteal author
@@ -166,6 +176,10 @@ public class HealthManager implements CommandExecutor {
 			}
 			// Message
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7Author of this plugin is &aDiskotekaSTARM&7. InGame nick is &aRETAMROVEC&7."));
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
 		// Command /lifesteal spigotmc
@@ -177,8 +191,10 @@ public class HealthManager implements CommandExecutor {
 			}
 			// Message
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cLS &a>> &7This plugin is on &aSpigotMC&7 and link is: &9https://www.spigotmc.org/resources/lifesteal.102599/&7."));
-			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
 		// If args[0] are "version" or "ver"
@@ -195,8 +211,10 @@ public class HealthManager implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Latest version is &6" + version + "&7."));
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Your plugin version is &6" + lifesteal.version + "&7."));
 			});
-			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
 		// Command /lifesteal send
@@ -248,10 +266,13 @@ public class HealthManager implements CommandExecutor {
 			// Messages with placeholders {target}, {sender}, {amount}, {prefix} and {suffix}
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{target}", "{amount}", "{suffix}", "{prefix}", target.getName(), args[2],lifesteal.getChat().getPlayerPrefix(target),lifesteal.getChat().getPlayerSuffix(target), "messages.hearts_sent", lifesteal)));
 			target.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{sender}", "{amount}", "{suffix}", "{prefix}", sender.getName(), args[2],lifesteal.getChat().getPlayerPrefix(senderPlayer),lifesteal.getChat().getPlayerSuffix(senderPlayer), "messages.hearts_sent", lifesteal)));
-			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
+		// Command /lifesteal recipe or /lifesteal showrecipe
 		if (args[0].equalsIgnoreCase("recipe") || args[0].equalsIgnoreCase("showrecipe")) {
 			// If sender has permission lifesteal.send
 			if (!lifesteal.getPermissions().has(sender, "lifesteal.send")) {
@@ -266,8 +287,40 @@ public class HealthManager implements CommandExecutor {
 			ccg.OpenInventory(player);
 			// Message
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.recipe_showed")));
-			CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-			Bukkit.getPluginManager().callEvent(commandUseEvent);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
+			return true;
+		}
+		// Command /lifesteal revive
+		if (args[0].equalsIgnoreCase("revive")) {
+			if (!lifesteal.getPermissions().has(sender, "lifesteal.revive")) {
+				// Message
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.without_perm")));
+				return false;
+			}
+			if (args.length < 3) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player_isnt_registered")));
+				return false;
+			}
+			OfflinePlayer player = Bukkit.getOfflinePlayer(args[3]);
+			if (!lifesteal.getConfig().contains("player." + player.getName())) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player_isnt_registered")));
+				return false;
+			}
+			lifesteal.getConfig().set("player." + player.getName(), 20);
+			lifesteal.saveConfig();
+			if (!Bukkit.getBannedPlayers().contains(player)) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.player-is-alive")));
+				return false;
+			}
+			Bukkit.getBanList(BanList.Type.NAME).pardon(player.getName());
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player-revived")));
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
 			return true;
 		}
 			/* @Deprecated
@@ -283,8 +336,10 @@ public class HealthManager implements CommandExecutor {
 		Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
 		Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
 		Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
-		CommandUseEvent2 commandUseEvent = new CommandUseEvent2(sender, args);
-		Bukkit.getPluginManager().callEvent(commandUseEvent);
+		CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+		if (!commandUseEvent.isCancelled()) {
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
+		}
 		return false;
 	}
 }
