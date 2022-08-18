@@ -8,6 +8,12 @@ import retamrovec.finesoftware.lifesteal.LifeSteal;
 
 public class Message {
 
+    public String replace(String replace1, String output1, String path, @NotNull LifeSteal lifesteal) {
+        String format = lifesteal.getConfig().getString(path);
+        return format != null ? format
+                .replace(replace1, output1): null;
+    }
+
     public String replace(String replace1, String replace2, String replace3, String replace4, String output1, String output2, String output3, String output4, String path, @NotNull LifeSteal lifesteal) {
         String format = lifesteal.getConfig().getString(path);
 

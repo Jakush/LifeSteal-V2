@@ -316,7 +316,7 @@ public class HealthManager implements CommandExecutor {
 				return false;
 			}
 			Bukkit.getBanList(BanList.Type.NAME).pardon(player.getName());
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player-revived")));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{player}", player.getName(), "messages.player-revived", lifesteal)));
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
 				Bukkit.getPluginManager().callEvent(commandUseEvent);
