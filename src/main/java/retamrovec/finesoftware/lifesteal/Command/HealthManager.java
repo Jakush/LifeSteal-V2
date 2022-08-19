@@ -10,7 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.*;
-import retamrovec.finesoftware.lifesteal.Listeners.CommandUseEvent;
+import retamrovec.finesoftware.lifesteal.Events.CommandUseEvent;
+import retamrovec.finesoftware.lifesteal.Events.PlayerReviveEvent;
 import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingGUI;
 import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingManager;
 import retamrovec.finesoftware.lifesteal.Manager.Message;
@@ -31,13 +32,7 @@ public class HealthManager implements CommandExecutor {
 
 	@Override
 	@Deprecated
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-		// If sender is not player
-		if (!(sender instanceof Player)) {
-			lifesteal.getLogger().severe("You are not a player!");
-			return false;
-		}
-
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
 		// Command /lifesteal
 		if (args.length == 0) {
 			/* @Deprecated
@@ -58,6 +53,46 @@ public class HealthManager implements CommandExecutor {
 				Bukkit.getPluginManager().callEvent(commandUseEvent);
 			}
 			return true;
+		}
+		// Command /lifesteal revive
+		if (args[0].equalsIgnoreCase("revive")) {
+			if (!lifesteal.getPermissions().has(sender, "lifesteal.revive")) {
+				// Message
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.without_perm")));
+				return false;
+			}
+			if (args.length < 3) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player_isnt_registered")));
+				return false;
+			}
+			OfflinePlayer player = Bukkit.getOfflinePlayer(args[3]);
+			if (!lifesteal.getConfig().contains("player." + player.getName())) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player_isnt_registered")));
+				return false;
+			}
+			lifesteal.getConfig().set("player." + player.getName(), 20);
+			lifesteal.saveConfig();
+			if (!Bukkit.getBannedPlayers().contains(player)) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.player-is-alive")));
+				return false;
+			}
+			Bukkit.getBanList(BanList.Type.NAME).pardon(player.getName());
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{player}", player.getName(), "messages.player-revived", lifesteal)));
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			if (!commandUseEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+			}
+			PlayerReviveEvent playerReviveEvent = new PlayerReviveEvent(player, lifesteal.getConfig().getString("messages.player-revived"));
+			if (!playerReviveEvent.isCancelled()) {
+				Bukkit.getPluginManager().callEvent(playerReviveEvent);
+			}
+			return true;
+		}
+
+		// If sender is not player
+		if (!(sender instanceof Player)) {
+			lifesteal.getLogger().severe("You are not a player!");
+			return false;
 		}
 
 		// Command /lifesteal help
@@ -287,36 +322,6 @@ public class HealthManager implements CommandExecutor {
 			ccg.OpenInventory(player);
 			// Message
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.recipe_showed")));
-			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
-			if (!commandUseEvent.isCancelled()) {
-				Bukkit.getPluginManager().callEvent(commandUseEvent);
-			}
-			return true;
-		}
-		// Command /lifesteal revive
-		if (args[0].equalsIgnoreCase("revive")) {
-			if (!lifesteal.getPermissions().has(sender, "lifesteal.revive")) {
-				// Message
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.without_perm")));
-				return false;
-			}
-			if (args.length < 3) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player_isnt_registered")));
-				return false;
-			}
-			OfflinePlayer player = Bukkit.getOfflinePlayer(args[3]);
-			if (!lifesteal.getConfig().contains("player." + player.getName())) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player_isnt_registered")));
-				return false;
-			}
-			lifesteal.getConfig().set("player." + player.getName(), 20);
-			lifesteal.saveConfig();
-			if (!Bukkit.getBannedPlayers().contains(player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.player-is-alive")));
-				return false;
-			}
-			Bukkit.getBanList(BanList.Type.NAME).pardon(player.getName());
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{player}", player.getName(), "messages.player-revived", lifesteal)));
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
 				Bukkit.getPluginManager().callEvent(commandUseEvent);
