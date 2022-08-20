@@ -27,6 +27,7 @@ import retamrovec.finesoftware.lifesteal.Command.HealthManagerTab;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
 import retamrovec.finesoftware.lifesteal.Listeners.InventoryClickListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerDeathListener;
+import retamrovec.finesoftware.lifesteal.Listeners.PlayerItemConsumeListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerJoinListener;
 import retamrovec.finesoftware.lifesteal.Manager.*;
 
@@ -45,6 +46,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		DebugHandler debug = new DebugHandler(this);
 		Heart heart = new Heart(this);
 		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new PlayerItemConsumeListener(heart, this, debug), this);
 		pm.registerEvents(new PlayerDeathListener(this), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
 		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this)), this);
@@ -65,6 +67,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		saveConfig();
 		getLogger().info("Config.yml was generated..");
 		getLogger().info(ChatColor.translateAlternateColorCodes('&', "Version (" + configVersion + ") has been enabled."));
+		heart.init(this);
 
 		try {
 			Thread.sleep(20);

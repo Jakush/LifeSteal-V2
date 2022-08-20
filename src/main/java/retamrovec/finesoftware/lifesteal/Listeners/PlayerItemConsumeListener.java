@@ -2,9 +2,11 @@ package retamrovec.finesoftware.lifesteal.Listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import retamrovec.finesoftware.lifesteal.Events.PlayerEatHeartEvent;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
@@ -25,8 +27,10 @@ public class PlayerItemConsumeListener implements Listener {
     @EventHandler
     public void onEat(PlayerItemConsumeEvent e) {
         debug.init("Player " + e.getPlayer().getName() + " is eating. Checking if item is enchanted_golden_apple.");
-        if (heart.isHeart(e.getItem())) {
-            debug.init("Statement is " + heart.isHeart(e.getItem()));
+        debug.init("Eating " + e.getItem());
+        debug.init("Lore " + e.getItem().getItemMeta().getLore());
+        ItemStack is = e.getItem();
+        if (is.getType().equals(Material.ENCHANTED_GOLDEN_APPLE)) {
             debug.init("Checking if player is in config.yml.");
             if (!lifeSteal.getConfig().contains("player." + e.getPlayer().getName())) {
                 debug.error("Player " + e.getPlayer().getName() + " is not in config.yml.");
@@ -38,7 +42,7 @@ public class PlayerItemConsumeListener implements Listener {
             debug.init("Checking if player is not already at limit.");
             if (e.getPlayer().getMaxHealth() >= 40) {
                 debug.warning("Player " + e.getPlayer().getName() + " can't get more hearts because he is at limit!");
-                e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', lifeSteal.getConfig().getString("too_big_amount_of_hearts")));
+                e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', lifeSteal.getConfig().getString("error.too_big_amount_of_hearts")));
                 e.setCancelled(true);
                 return;
             }
@@ -49,15 +53,6 @@ public class PlayerItemConsumeListener implements Listener {
             }
             debug.init("Calling playerEatHeartEvent");
             Bukkit.getPluginManager().callEvent(playerEatHeartEvent);
-            debug.init("Removing REGENERATION potion effect.");
-            e.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-            debug.init("Removed.");
-            debug.init("Removing DAMAGE_RESISTANCE potion effect.");
-            e.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-            debug.init("Removed.");
-            debug.init("Removing FIRE_RESISTANCE potion effect.");
-            e.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-            debug.init("Removed.");
             debug.init("Setting up new values in config.yml");
             lifeSteal.getConfig().set("player." + e.getPlayer().getName(), lifeSteal.getConfig().getInt("player." + e.getPlayer().getName()) + 2);
             debug.init("New values " + "player." + e.getPlayer().getName() + ":" + lifeSteal.getConfig().getInt("player." + e.getPlayer().getName()));
@@ -65,6 +60,10 @@ public class PlayerItemConsumeListener implements Listener {
             debug.init("Saving values in config.yml.");
             e.getPlayer().setMaxHealth(lifeSteal.getConfig().getInt("player." + e.getPlayer().getName()));
             debug.init("Setting new values in-game.");
+            e.getPlayer().getInventory().remove(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
+            debug.init("Removing 1x heart item.");
+            e.setCancelled(true);
+            debug.init("Cancelling event.");
         }
     }
 

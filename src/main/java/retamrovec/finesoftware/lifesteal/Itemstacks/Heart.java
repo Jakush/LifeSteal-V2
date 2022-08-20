@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
 
 import java.util.ArrayList;
@@ -17,12 +16,14 @@ import java.util.List;
 public class Heart {
 
     private ItemStack itemStack;
-    private NamespacedKey key;
     private final LifeSteal l;
     public Heart(LifeSteal l) {
         this.l = l;
     }
 
+    public NamespacedKey key(JavaPlugin plugin){
+        return new NamespacedKey(plugin, "Heart");
+    }
     public void register(JavaPlugin plugin){
         itemStack = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -33,8 +34,7 @@ public class Heart {
         itemStack.setItemMeta(itemMeta);
 
         {
-            key = new NamespacedKey(plugin, "heart");
-            ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
+            ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "Heart"), itemStack);
             recipe.shape(
                     "fst",
                     "oix",
@@ -54,9 +54,7 @@ public class Heart {
     }
 
     public void init(JavaPlugin plugin) {
-        if (Bukkit.getServer().getRecipe(key) != null) {
-            Bukkit.getServer().removeRecipe(key);
-        }
+            Bukkit.getServer().removeRecipe(this.key(plugin));
         register(plugin);
     }
 
@@ -64,12 +62,9 @@ public class Heart {
         return itemStack;
     }
 
-    public NamespacedKey getNamespacedKey() {
-        return key;
-    }
-
-    public boolean isHeart(@NotNull ItemStack itemStack) {
-        return itemStack.equals(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE));
+    public boolean isHeart(ItemStack item) {
+        ItemStack heart = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
+        return item == heart;
     }
 
 
