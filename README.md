@@ -10,3 +10,8 @@ LifeSteal lifesteal = (LifeSteal) Bukkit.getPluginManager().getPlugin("Fine-Life
 ```
 ## All available methods:
 getRecipe(); - returns 9 Materials used in config.
+
+## All available events:
+PlayerEatEvent(); - Player getPlayer(), ItemStack getItem(), boolean isCancelled(), void setCancelled()
+PlayerReviveEvent(); - Player getPlayer(), boolean isCancelled(), void setCancelled();
+CommandUseEvent(); - CommandSender getSender(), Player getPlayer(), String[] getArgs(), boolean isCancelled(), void setCancelled()
