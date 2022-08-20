@@ -42,11 +42,12 @@ public class PlayerItemConsumeListener implements Listener {
                 e.setCancelled(true);
                 return;
             }
-            PlayerEatHeartEvent playerEatHeartEvent = new PlayerEatHeartEvent(e.getPlayer());
+            PlayerEatHeartEvent playerEatHeartEvent = new PlayerEatHeartEvent(e.getPlayer(), e.getItem());
             if (playerEatHeartEvent.isCancelled()) {
                 debug.init("Cancelling PlayerEatHeartEvent because plugin requested it!");
                 return;
             }
+            debug.init("Calling playerEatHeartEvent");
             Bukkit.getPluginManager().callEvent(playerEatHeartEvent);
             debug.init("Removing REGENERATION potion effect.");
             e.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
