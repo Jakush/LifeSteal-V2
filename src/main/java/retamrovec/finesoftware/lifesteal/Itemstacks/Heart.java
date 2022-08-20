@@ -1,6 +1,4 @@
-package retamrovec.finesoftware.lifesteal.Manager;
-
-import java.util.List;
+package retamrovec.finesoftware.lifesteal.Itemstacks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,25 +7,34 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
 
-public class CustomCraftingManager {
-	
-	LifeSteal l;
-	public CustomCraftingManager(LifeSteal l) {
-		this.l = l;
-	}
-		
-	public void registerRecipe(Plugin plugin) {
-		ItemStack enchgoldenapple = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
-		ItemMeta enchgoldenapplemeta = enchgoldenapple.getItemMeta();
-		enchgoldenapplemeta.setDisplayName("Life");
-		enchgoldenapplemeta.setLore(List.of(ChatColor.GRAY + "Get one more heart."));
-		enchgoldenapple.setItemMeta(enchgoldenapplemeta); 
-		{
-            NamespacedKey key = new NamespacedKey(plugin, "enchgoldenapple");
-            ShapedRecipe recipe = new ShapedRecipe(key, enchgoldenapple);
+import java.util.ArrayList;
+import java.util.List;
+
+public class Heart {
+
+    private ItemStack itemStack;
+    private NamespacedKey key;
+    private final LifeSteal l;
+    public Heart(LifeSteal l) {
+        this.l = l;
+    }
+
+    public void register(JavaPlugin plugin){
+        itemStack = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cHeart"));
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Eat this to get heart!"));
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+
+        {
+            key = new NamespacedKey(plugin, "heart");
+            ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
             recipe.shape(
                     "fst",
                     "oix",
@@ -43,20 +50,27 @@ public class CustomCraftingManager {
             recipe.setIngredient('n', Material.matchMaterial(l.getConfig().getString("recipe.ingredients.ninth")));
 
             Bukkit.addRecipe(recipe);
-		}
-	}
-	
-	public NamespacedKey getRecipe(Plugin plugin) {
-		ItemStack enchgoldenapple = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
-		ItemMeta enchgoldenapplemeta = enchgoldenapple.getItemMeta();
-		enchgoldenapplemeta.setDisplayName("Life");
-		enchgoldenapplemeta.setLore(List.of(ChatColor.GRAY + "Get one more heart."));
-		enchgoldenapple.setItemMeta(enchgoldenapplemeta); 
-		{
-            NamespacedKey key = new NamespacedKey(plugin, "enchgoldenapple");
-            
-            return key;
-		}
-	}
+        }
+    }
+
+    public void init(JavaPlugin plugin) {
+        if (Bukkit.getServer().getRecipe(key) != null) {
+            Bukkit.getServer().removeRecipe(key);
+        }
+        register(plugin);
+    }
+
+    public ItemStack getHeart() {
+        return itemStack;
+    }
+
+    public NamespacedKey getNamespacedKey() {
+        return key;
+    }
+
+    public boolean isHeart(@NotNull ItemStack itemStack) {
+        return itemStack.equals(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE));
+    }
+
 
 }

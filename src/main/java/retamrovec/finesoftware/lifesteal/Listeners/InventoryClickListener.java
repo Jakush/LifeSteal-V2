@@ -20,14 +20,7 @@ public class InventoryClickListener implements Listener {
 	
 	@EventHandler (priority = EventPriority.HIGH)
 	public void onInteract(InventoryClickEvent e) {
-		
 		Player p = (Player) e.getWhoClicked();
-		
-		// Gold_Ingot | Diamond         | Gold_Ingot
-		// Diamond    | Netherite_Ingot | Diamond
-		// Gold_Ingot | Diamond         | Gold_Ingot
-		
-
 		if (e.getView().getTitle().equals(ChatColor.translateAlternateColorCodes('&', "&cHeart &arecipe"))) {
 			if (e.getClickedInventory() == null) {
 				e.setCancelled(false);

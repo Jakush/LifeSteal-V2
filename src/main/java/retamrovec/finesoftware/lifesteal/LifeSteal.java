@@ -24,14 +24,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.Command.HealthManager;
 import retamrovec.finesoftware.lifesteal.Command.HealthManagerTab;
-import retamrovec.finesoftware.lifesteal.Listeners.CraftItemListener;
 import retamrovec.finesoftware.lifesteal.Listeners.InventoryClickListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerDeathListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerJoinListener;
-import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingGUI;
-import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingManager;
-import retamrovec.finesoftware.lifesteal.Manager.Message;
-import retamrovec.finesoftware.lifesteal.Manager.UpdateChecker;
+import retamrovec.finesoftware.lifesteal.Manager.*;
 
 public class LifeSteal extends JavaPlugin implements Listener {
 
@@ -44,15 +40,14 @@ public class LifeSteal extends JavaPlugin implements Listener {
 	private final String configVersion = getConfig().getString("plugin.version");
 	public void onEnable() {
 		CustomCraftingGUI CustomCraftingGUI = new CustomCraftingGUI(this);
-		CustomCraftingManager CustomCraftingManager = new CustomCraftingManager(this);
 		Message Message = new Message();
+		DebugHandler debug = new DebugHandler(this);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerDeathListener(this), this);
-		pm.registerEvents(new CraftItemListener(this), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
 		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this)), this);
 		pm.registerEvents(this, this);
-		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, CustomCraftingManager, Message));
+		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, Message, debug));
 		getCommand("lifesteal").setTabCompleter(new HealthManagerTab(this));
 		if (configVersion == null || getConfig().getString("plugin.version").isEmpty()) {
 			Bukkit.getPluginManager().disablePlugin(this);
@@ -68,9 +63,6 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		saveConfig();
 		getLogger().info("Config.yml was generated..");
 		getLogger().info(ChatColor.translateAlternateColorCodes('&', "Version (" + configVersion + ") has been enabled."));
-
-		CustomCraftingManager ccm = new CustomCraftingManager(this);
-		ccm.registerRecipe(this);
 
 		try {
 			Thread.sleep(20);
@@ -99,6 +91,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		getLogger().severe("Version (" + configVersion + ") has been disabled.");
 		saveConfig();
 	}
+
 	private boolean setupChat() {
 		RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
 		if (rsp == null) {
