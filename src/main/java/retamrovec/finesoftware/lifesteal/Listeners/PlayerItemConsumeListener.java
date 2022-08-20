@@ -3,11 +3,13 @@ package retamrovec.finesoftware.lifesteal.Listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
+import retamrovec.finesoftware.lifesteal.Bukkit.BInventory;
 import retamrovec.finesoftware.lifesteal.Events.PlayerEatHeartEvent;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
@@ -60,8 +62,12 @@ public class PlayerItemConsumeListener implements Listener {
             debug.init("Saving values in config.yml.");
             e.getPlayer().setMaxHealth(lifeSteal.getConfig().getInt("player." + e.getPlayer().getName()));
             debug.init("Setting new values in-game.");
-            e.getPlayer().getInventory().remove(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
+            Player player = e.getPlayer();
+            Inventory inventory = (Inventory) e.getPlayer().getInventory();
+            BInventory.removeItem(inventory, e.getItem());
             debug.init("Removing 1x heart item.");
+            player.updateInventory();
+            debug.init("Updating player inventory..");
             e.setCancelled(true);
             debug.init("Cancelling event.");
         }

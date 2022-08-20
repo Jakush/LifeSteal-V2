@@ -65,15 +65,15 @@ public class HealthManager implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.without_perm")));
 				return false;
 			}
-			if (args.length < 3) {
+			if (args.length < 2) {
 				debug.init("Checking args.");
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player_isnt_registered")));
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.unknown-error")));
 				return false;
 			}
-			OfflinePlayer player = Bukkit.getOfflinePlayer(args[3]);
+			OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
 			if (!lifesteal.getConfig().contains("player." + player.getName())) {
 				debug.init("Sending message.");
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.player_isnt_registered")));
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.player_isnt_registered")));
 				return false;
 			}
 			lifesteal.getConfig().set("player." + player.getName(), 20);

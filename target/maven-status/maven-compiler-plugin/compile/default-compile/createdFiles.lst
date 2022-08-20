@@ -10,6 +10,7 @@ retamrovec\finesoftware\lifesteal\Events\PlayerEatHeartEvent.class
 retamrovec\finesoftware\lifesteal\Listeners\InventoryClickListener.class
 retamrovec\finesoftware\lifesteal\Listeners\PlayerDeathListener.class
 retamrovec\finesoftware\lifesteal\Manager\DebugHandler.class
+retamrovec\finesoftware\lifesteal\Bukkit\BInventory.class
 retamrovec\finesoftware\lifesteal\Manager\CustomCraftingGUI.class
 retamrovec\finesoftware\lifesteal\Itemstacks\Heart.class
 retamrovec\finesoftware\lifesteal\LifeSteal.class

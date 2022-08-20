@@ -48,8 +48,7 @@ public class PlayerDeathListener implements Listener {
 								}
 							} else {
 								player.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.player_isnt_registered")));
-								killer.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.player_isnt_registered")));
-						}							
+						}
 					}					
 				}
 				else if (killer instanceof Player) {
