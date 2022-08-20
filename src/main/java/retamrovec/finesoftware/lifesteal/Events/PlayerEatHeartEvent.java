@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,17 +19,17 @@ public class PlayerEatHeartEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private final Player player;
+    private final ItemStack itemStack;
     private boolean cancelled;
 
-    public PlayerEatHeartEvent(Player player) {
+    public PlayerEatHeartEvent(Player player, ItemStack itemStack) {
         cancelled = false;
         this.player = player;
+        this.itemStack = itemStack;
     }
 
-    @Deprecated
-    public @Nullable Player getPlayer(){
-        return player;
-    }
+    public Player getPlayer(){return player;}
+    public ItemStack getItem(){return itemStack;}
     public boolean isCancelled(){return cancelled;}
 
     @Override
