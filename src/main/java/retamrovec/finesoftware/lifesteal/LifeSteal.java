@@ -24,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.Command.HealthManager;
 import retamrovec.finesoftware.lifesteal.Command.HealthManagerTab;
+import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
 import retamrovec.finesoftware.lifesteal.Listeners.InventoryClickListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerDeathListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerJoinListener;
@@ -32,7 +33,7 @@ import retamrovec.finesoftware.lifesteal.Manager.*;
 public class LifeSteal extends JavaPlugin implements Listener {
 
 	private static final Logger log = Logger.getLogger("Minecraft");
-	private static Economy econ = null;
+	private static final Economy econ = null;
 	private static Permission perms = null;
 	private static Chat chat = null;
 	public final PluginDescriptionFile pdf = this.getDescription();
@@ -42,12 +43,13 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		CustomCraftingGUI CustomCraftingGUI = new CustomCraftingGUI(this);
 		Message Message = new Message();
 		DebugHandler debug = new DebugHandler(this);
+		Heart heart = new Heart(this);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerDeathListener(this), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
 		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this)), this);
 		pm.registerEvents(this, this);
-		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, Message, debug));
+		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, Message, debug, heart));
 		getCommand("lifesteal").setTabCompleter(new HealthManagerTab(this));
 		if (configVersion == null || getConfig().getString("plugin.version").isEmpty()) {
 			Bukkit.getPluginManager().disablePlugin(this);
@@ -81,9 +83,10 @@ public class LifeSteal extends JavaPlugin implements Listener {
 				getLogger().info("Your version is " + configVersion);
 			}
 		});
-
-		int pluginId = 16131;
-		Metrics metrics = new Metrics(this, pluginId);
+		if (getConfig().getBoolean("config.bStats")) {
+			int pluginId = 16131;
+			Metrics metrics = new Metrics(this, pluginId);
+		}
 	}
 	
 	public void onDisable() {

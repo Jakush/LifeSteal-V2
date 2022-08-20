@@ -74,6 +74,10 @@ config:
   # This option means, if mob will kill you, true = you lose one of your hearts, false = you won't lose anything
   #
   lose_hearts_on_mobs: true
+  #
+  # Please don't disable this option, this motivates developer to make more and more updates, but if you really want to disable bStats, here you can!
+  #
+  bStats: true
 recipe:
   #
   # This section is for people, who need own recipe.
