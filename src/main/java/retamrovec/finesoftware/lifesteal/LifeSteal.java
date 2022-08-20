@@ -72,7 +72,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 			throw new RuntimeException(e);
 		}
 
-		new UpdateChecker(this, 102599, this).getVersion(version -> {
+		new UpdateChecker(this, 102599).getVersion(version -> {
 			if (configVersion.equals(version)) {
 				getLogger().info("Plugin version is the latest");
 			} else {
@@ -146,7 +146,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		Player player = e.getPlayer();
 		String configVersion = getConfig().getString("plugin.version");
 		if (player.isOp() || player.hasPermission("lifesteal.admin")) {
-	        new UpdateChecker(this, 102599, this).getVersion(version -> {
+	        new UpdateChecker(this, 102599).getVersion(version -> {
 	            if (!configVersion.equals(version)) {
 	                if (this.getConfig().getBoolean("config.notify_op_updates") == true) {
 		                player.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.update_available_notify")));

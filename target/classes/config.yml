@@ -27,11 +27,11 @@ error:
     this feature is disabled.'
   too_much_hearts: '&cLS &a>> &7Because you had more HP than 40, your HP got cutted
     to 20 HP.'
-  too_big_amount_of_hearts: '&cLS &a>> &7You writed too much HP, max amount of HP
-    you can write is 40.'
+  too_big_amount_of_hearts: '&cLS &a>> &7You cant have more hearts than 40.'
   cant_withdraw_to_yourself: '&cLS &a>> &7Cant withdraw hearts to yourself. You must withdraw to any player, but not you.'
   cannot_use_command: '&cLS &a>> &7You can´t use this command as console.'
   player-is-alive: '&cLS &a>> &7This player is already live.'
+  unknown-error: '&cThere is unexpected error! Please report this to server admins for more!'
 messages:
   changed_amount_of_health: '&cLS &a>> &7Amount of health has been changed.'
   heart_get: '&cLS &a>> &7You get one new heart.'
@@ -74,6 +74,10 @@ config:
   # This option means, if mob will kill you, true = you lose one of your hearts, false = you won't lose anything
   #
   lose_hearts_on_mobs: true
+  #
+  # Please don't disable this option, this motivates developer to make more and more updates, but if you really want to disable bStats, here you can!
+  #
+  bStats: true
 recipe:
   #
   # This section is for people, who need own recipe.

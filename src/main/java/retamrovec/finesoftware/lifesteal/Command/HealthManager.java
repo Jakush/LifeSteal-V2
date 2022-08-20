@@ -266,7 +266,7 @@ public class HealthManager implements CommandExecutor {
 				return false;
 			}
 			// UpdateChecker (for latest version by spigot api)
-			new UpdateChecker(lifesteal, 102599, lifesteal).getVersion(version -> {
+			new UpdateChecker(lifesteal, 102599).getVersion(version -> {
 				// Messages
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Latest version is &6" + version + "&7."));
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Your plugin version is &6" + lifesteal.version + "&7."));

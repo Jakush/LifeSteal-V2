@@ -16,11 +16,9 @@ public class UpdateChecker {
     private final JavaPlugin plugin;
     private final int resourceId;
 
-    LifeSteal lifesteal;
-    public UpdateChecker(JavaPlugin plugin, int resourceId, LifeSteal lifesteal) {
+    public UpdateChecker(JavaPlugin plugin, int resourceId) {
         this.plugin = plugin;
         this.resourceId = resourceId;
-        this.lifesteal = lifesteal;
     }
 
     public void getVersion(final Consumer<String> consumer) {
