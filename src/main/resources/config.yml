@@ -32,6 +32,7 @@ error:
   cannot_use_command: '&cLS &a>> &7You can´t use this command as console.'
   player-is-alive: '&cLS &a>> &7This player is already live.'
   unknown-error: '&cThere is unexpected error! Please report this to server admins for more!'
+  player-is-null: '&cLS &a>> &7This target is offline or null.'
 messages:
   changed_amount_of_health: '&cLS &a>> &7Amount of health has been changed.'
   heart_get: '&cLS &a>> &7You get one new heart.'
@@ -49,7 +50,7 @@ messages:
   hearts_sent: '&cLS &a>> &7You sent &c{amount} &7hearts to &a{target}&7.'
   recipe_showed: '&cLS &a>> &7Recipe has been showed.'
   recipe_changed: '&cLS &a>> &7Recipe successfully changed!'
-  # DON'T WORK, IN NEWER VERSIONS THIS MAYBE ALREADY WORK!
+  # messages.help DON'T WORK, IN NEWER VERSIONS THIS MAYBE ALREADY WORK!
   help:
     - '&cLS &a>> &7HELP\n'
     - '&7You can use /ls, /lifesteal or /lfs to use plugin commands.\n'

@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
+import retamrovec.finesoftware.lifesteal.Manager.PAPI;
 
 public class PlayerJoinListener implements Listener {
 	
@@ -33,18 +34,17 @@ public class PlayerJoinListener implements Listener {
 			if (lifesteal.getConfig().contains("player." + player.getName())) {
 				if (lifesteal.getConfig().getInt("player." + player.getName()) == 2 || lifesteal.getConfig().getInt("player." + player.getName()) == 1) {
 					if (player.isBanned() == false) {
-						Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.zero_health_ban")), null, null);
-						player.kickPlayer(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.zero_health_ban")));
+						Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))), null, null);
+						player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))));
 					}
 				} 
 				else {
-					double playerMaxHealth = Double.valueOf(lifesteal.getConfig().getString("player." + player.getName()));
+					double playerMaxHealth = lifesteal.getConfig().getDouble("player." + player.getName());
 					
 					player.setMaxHealth(playerMaxHealth);	
 					if (player.isBanned() == true) {
 						OfflinePlayer target = e.getPlayer();
 						Bukkit.getBanList(BanList.Type.NAME).pardon(target.getName());
-						
 					}
 				}
 			}

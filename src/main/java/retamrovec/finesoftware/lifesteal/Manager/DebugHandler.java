@@ -10,6 +10,10 @@ public class DebugHandler {
         this.plugin = plugin;
     }
 
+    public void info(String info){
+        Bukkit.getLogger().info(info);
+    }
+
     public void init(String message){
         if (plugin.getConfig().getBoolean("developer.enable")) {
             Bukkit.getLogger().info("[DEBUG] " + message);

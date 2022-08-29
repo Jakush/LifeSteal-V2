@@ -4,11 +4,13 @@ retamrovec\finesoftware\lifesteal\Events\PlayerReviveEvent.class
 retamrovec\finesoftware\lifesteal\Command\HealthManager.class
 retamrovec\finesoftware\lifesteal\Manager\Message.class
 retamrovec\finesoftware\lifesteal\Command\HealthManagerTab.class
+retamrovec\finesoftware\lifesteal\Manager\EntityHandler.class
 retamrovec\finesoftware\lifesteal\Manager\UpdateChecker.class
 retamrovec\finesoftware\lifesteal\Listeners\PlayerJoinListener.class
 retamrovec\finesoftware\lifesteal\Storage\Edit.class
 retamrovec\finesoftware\lifesteal\Events\PlayerEatHeartEvent.class
 retamrovec\finesoftware\lifesteal\Listeners\InventoryClickListener.class
+retamrovec\finesoftware\lifesteal\Manager\PAPI.class
 retamrovec\finesoftware\lifesteal\Listeners\PlayerDeathListener.class
 retamrovec\finesoftware\lifesteal\Manager\DebugHandler.class
 retamrovec\finesoftware\lifesteal\Bukkit\BInventory.class

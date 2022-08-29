@@ -3,11 +3,6 @@ package retamrovec.finesoftware.lifesteal;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,7 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.Command.HealthManager;
@@ -30,14 +24,9 @@ import retamrovec.finesoftware.lifesteal.Listeners.PlayerDeathListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerItemConsumeListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerJoinListener;
 import retamrovec.finesoftware.lifesteal.Manager.*;
-import retamrovec.finesoftware.lifesteal.Storage.Edit;
 
 public class LifeSteal extends JavaPlugin implements Listener {
 
-	private static final Logger log = Logger.getLogger("Minecraft");
-	private static final Economy econ = null;
-	private static Permission perms = null;
-	private static Chat chat = null;
 	public final PluginDescriptionFile pdf = this.getDescription();
 	public final String version = pdf.getVersion();
 	private final String configVersion = getConfig().getString("plugin.version");
@@ -46,7 +35,6 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		Message Message = new Message();
 		DebugHandler debug = new DebugHandler(this);
 		Heart heart = new Heart(this);
-		Edit edit = new Edit(null);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerItemConsumeListener(heart, this, debug), this);
 		pm.registerEvents(new PlayerDeathListener(this), this);
@@ -59,8 +47,6 @@ public class LifeSteal extends JavaPlugin implements Listener {
 			Bukkit.getPluginManager().disablePlugin(this);
 			getLogger().info("Restart server for functionality.");
 		}
-		setupChat();
-		setupPermissions();
 		registerConfig();
 		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
@@ -70,6 +56,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		getLogger().info("Config.yml was generated..");
 		getLogger().info(ChatColor.translateAlternateColorCodes('&', "Version (" + configVersion + ") has been enabled."));
 		heart.init(this);
+		PAPI.init();
 
 		try {
 			Thread.sleep(20);
@@ -92,37 +79,29 @@ public class LifeSteal extends JavaPlugin implements Listener {
 			int pluginId = 16131;
 			Metrics metrics = new Metrics(this, pluginId);
 		}
+		debug.info(" ");
+		debug.info("|-------------------------------------------|");
+		debug.info("|                                           |");
+		debug.info("| Fine LifeSteal initialization is done!    |");
+		Message.isAllowed(getConfig().getBoolean("config.bStats"),
+				   "| bStats are enabled.                       |", "| bStats are disabled.                      |", debug);
+		Message.isAllowed(getConfig().getBoolean("developer.enable"),
+				   "| Developer mode is enabled.                |", "| Developer mode is disabled.               |", debug);
+		debug.info("|                                           |");
+		debug.info("|-------------------------------------------|");
 	}
 	
 	public void onDisable() {
+		DebugHandler debug = new DebugHandler(this);
 		String configVersion = getConfig().getString("plugin.version");
-		getLogger().severe("Version (" + configVersion + ") has been disabled.");
+		debug.info(" ");
+		debug.info("|-------------------------------------------|");
+		debug.info("|                                           |");
+		debug.info("| Fine LifeSteal un-initialization is done! |");
+		debug.info("|                                           |");
+		debug.info("|-------------------------------------------|");
 		saveConfig();
 	}
-
-	private boolean setupChat() {
-		RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
-		if (rsp == null) {
-			getLogger().warning("Chat plugin was not found! Disabling {prefix} and {suffix} features.");
-			return false;
-		}
-		chat = rsp.getProvider();
-		return chat != null;
-	}
-
-	private boolean setupPermissions() {
-		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-		perms = rsp.getProvider();
-		return perms != null;
-	}
-	public Chat getChat() {
-		return chat;
-	}
-
-	public Permission getPermissions() {
-		return perms;
-	}
-
 
 	public List<Material> getRecipe() {
 		List<Material> recipe = new ArrayList<>();

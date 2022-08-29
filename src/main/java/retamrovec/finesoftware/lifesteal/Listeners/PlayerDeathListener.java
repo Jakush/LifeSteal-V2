@@ -9,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
+import retamrovec.finesoftware.lifesteal.Manager.PAPI;
 
 public class PlayerDeathListener implements Listener {
 	
@@ -43,11 +44,11 @@ public class PlayerDeathListener implements Listener {
 								
 								else if (lifesteal.getConfig().getInt("player." + player.getName()) < 4) {
 									
-									Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.zero_health_ban")), null, null);
-									player.kickPlayer(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.zero_health_ban")));
+									Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))), null, null);
+									player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))));
 								}
 							} else {
-								player.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.player_isnt_registered")));
+								player.sendMessage(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.player_isnt_registered"))));
 						}
 					}					
 				}
@@ -73,8 +74,8 @@ public class PlayerDeathListener implements Listener {
 
 							lifesteal.saveConfig();
 
-							Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.zero_health_ban")), null, null);
-							player.kickPlayer(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.zero_health_ban")));
+							Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))), null, null);
+							player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))));
 						} else {
 							if (!(lifesteal.getConfig().getInt("player." + player.getName()) == 2)) {
 
@@ -89,7 +90,7 @@ public class PlayerDeathListener implements Listener {
 
 					}
 					else {
-						Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.player_isnt_registered")));
+						Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.player_isnt_registered"))));
 					}
 				}
 
