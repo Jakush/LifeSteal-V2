@@ -34,7 +34,6 @@ public class InventoryClickListener implements Listener {
 	public void onInteract(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
 		if (e.getView().getTitle().equals(ChatColor.translateAlternateColorCodes('&', "&cHeart &arecipe"))) {
-			l.getLogger().info("status" + Edit.getStatus());
 			if (e.getClickedInventory() == null) {
 				e.setCancelled(false);
 				p.closeInventory();
