@@ -8,14 +8,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.ItemStack;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
 import retamrovec.finesoftware.lifesteal.Manager.CustomCraftingGUI;
 import retamrovec.finesoftware.lifesteal.Manager.DebugHandler;
 import retamrovec.finesoftware.lifesteal.Storage.Edit;
-
-import java.util.Objects;
 
 public class InventoryClickListener implements Listener {
 	
@@ -46,51 +43,55 @@ public class InventoryClickListener implements Listener {
 	public void onClose(InventoryCloseEvent e) {
 		if (e.getView().getTitle().equals(ChatColor.translateAlternateColorCodes('&', "&cHeart &arecipe"))) {
 			if (Edit.getStatus()) {
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.first"))))).equals(e.getInventory().getItem(1)))) {
-					l.getConfig().set("recipe.ingredients.first", Objects.requireNonNull(e.getInventory().getItem(1)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.first")) != e.getView().getItem(1).getType()) {
+					l.getConfig().set("recipe.ingredients.first", e.getView().getItem(1).getType().toString());
 					l.saveConfig();
 					heart.init(l);
 				}
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.second"))))).equals(e.getInventory().getItem(2)))) {
-					l.getConfig().set("recipe.ingredients.second", Objects.requireNonNull(e.getInventory().getItem(2)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.second")) != e.getView().getItem(2).getType()) {
+					l.getConfig().set("recipe.ingredients.second", e.getView().getItem(2).getType().toString());
 					l.saveConfig();
 					heart.init(l);
 				}
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.third"))))).equals(e.getInventory().getItem(3)))) {
-					l.getConfig().set("recipe.ingredients.third", Objects.requireNonNull(e.getInventory().getItem(3)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.third")) != e.getView().getItem(3).getType()) {
+					l.getConfig().set("recipe.ingredients.third", e.getView().getItem(3).getType().toString());
 					l.saveConfig();
 					heart.init(l);
 				}
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.fourth"))))).equals(e.getInventory().getItem(4)))) {
-					l.getConfig().set("recipe.ingredients.fourth", Objects.requireNonNull(e.getInventory().getItem(4)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.fourth")) != e.getView().getItem(4).getType()) {
+					l.getConfig().set("recipe.ingredients.fourth", e.getView().getItem(4).getType().toString());
 					l.saveConfig();
 					heart.init(l);
 				}
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.fifth"))))).equals(e.getInventory().getItem(5)))) {
-					l.getConfig().set("recipe.ingredients.fifth", Objects.requireNonNull(e.getInventory().getItem(5)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.fifth")) != e.getView().getItem(5).getType()) {
+					l.getConfig().set("recipe.ingredients.fifth", e.getView().getItem(5).getType().toString());
 					l.saveConfig();
 					heart.init(l);
 				}
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.sixth"))))).equals(e.getInventory().getItem(6)))) {
-					l.getConfig().set("recipe.ingredients.sixth", Objects.requireNonNull(e.getInventory().getItem(6)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.sixth")) != e.getView().getItem(6).getType()) {
+					l.getConfig().set("recipe.ingredients.sixth", e.getView().getItem(6).getType().toString());
 					l.saveConfig();
 					heart.init(l);
 				}
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.seventh"))))).equals(e.getInventory().getItem(7)))) {
-					l.getConfig().set("recipe.ingredients.seventh", Objects.requireNonNull(e.getInventory().getItem(7)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.seventh")) != e.getView().getItem(7).getType()) {
+					l.getConfig().set("recipe.ingredients.seventh", e.getView().getItem(7).getType().toString());
 					l.saveConfig();
 					heart.init(l);
 				}
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.eighth"))))).equals(e.getInventory().getItem(8)))) {
-					l.getConfig().set("recipe.ingredients.eighth", Objects.requireNonNull(e.getInventory().getItem(8)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.eighth")) != e.getView().getItem(8).getType()) {
+					l.getConfig().set("recipe.ingredients.eighth", e.getView().getItem(8).getType().toString());
 					l.saveConfig();
 					heart.init(l);
 				}
-				if (!(new ItemStack(Objects.requireNonNull(Material.matchMaterial(Objects.requireNonNull(l.getConfig().getString("recipe.ingredients.ninth"))))).equals(e.getInventory().getItem(9)))) {
-					l.getConfig().set("recipe.ingredients.ninth", Objects.requireNonNull(e.getInventory().getItem(9)).getType());
+				if (Material.matchMaterial(l.getConfig().getString("recipe.ingredients.ninth")) != e.getView().getItem(9).getType()) {
+					l.getConfig().set("recipe.ingredients.ninth", e.getView().getItem(9).getType().toString());
+
 					l.saveConfig();
 					heart.init(l);
 				}
+				Player player = (Player) e.getPlayer();
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', l.getConfig().getString("messages.recipe_changed")));
+				debug.init("Applying changes.");
 				Edit.setStatus(false);
 			}
 		}

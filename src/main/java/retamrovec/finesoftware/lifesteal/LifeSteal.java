@@ -128,7 +128,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		List<Material> recipe = new ArrayList<>();
 		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.first")));
 		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.second")));
-		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.thirst")));
+		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.third")));
 		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.fourth")));
 		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.fifth")));
 		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.sixth")));

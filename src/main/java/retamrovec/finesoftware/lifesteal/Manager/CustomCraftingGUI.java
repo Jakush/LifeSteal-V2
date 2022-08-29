@@ -25,7 +25,7 @@ public class CustomCraftingGUI {
 		
 		inv.setItem(1, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.first"))));
 		inv.setItem(2, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.second"))));
-		inv.setItem(3, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.thirst"))));
+		inv.setItem(3, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.third"))));
 		inv.setItem(4, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.fourth"))));
 		inv.setItem(5, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.fifth"))));
 		inv.setItem(6, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.sixth"))));

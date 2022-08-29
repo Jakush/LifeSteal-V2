@@ -35,7 +35,7 @@ error:
 messages:
   changed_amount_of_health: '&cLS &a>> &7Amount of health has been changed.'
   heart_get: '&cLS &a>> &7You get one new heart.'
-  config_reloaded: '&cLS &a>> &7Config has been successfuly reloaded!'
+  config_reloaded: '&cLS &a>> &7Config has been successfully reloaded!'
   update_available_notify: '&cLS &a>> &7New update is available, download new version
     at &a/lifesteal spigotmc&7.'
   #
@@ -48,6 +48,8 @@ messages:
   hearts_get: '&cLS &a>> &7You get &c{amount} &7hearts from &a{sender}&7.'
   hearts_sent: '&cLS &a>> &7You sent &c{amount} &7hearts to &a{target}&7.'
   recipe_showed: '&cLS &a>> &7Recipe has been showed.'
+  recipe_changed: '&cLS &a>> &7Recipe successfully changed!'
+  # DON'T WORK, IN NEWER VERSIONS THIS MAYBE ALREADY WORK!
   help:
     - '&cLS &a>> &7HELP\n'
     - '&7You can use /ls, /lifesteal or /lfs to use plugin commands.\n'
