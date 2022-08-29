@@ -353,6 +353,24 @@ public class HealthManager implements CommandExecutor {
 			}
 			return true;
 		}
+		if (args[0].equalsIgnoreCase("editRecipe") || args[0].equalsIgnoreCase("edit")) {
+			debug.init("Checking args[0].");
+			debug.init("Checking permissions.");
+			if (!lifesteal.getPermissions().has(sender, "lifesteal.editRecipe")) {
+				// Message
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.without_perm")));
+				return false;
+			}
+			debug.init("Opening inventory.");
+			// Making and casting sender to player
+			Player player = (Player) sender;
+			// Creating inventory and then opening
+			ccg.CreateInventory();
+			ccg.OpenInventory(player);
+			// Message
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("messages.recipe_showed")));
+			return true;
+		}
 			/* @Deprecated
 			 (replacing [ and ] with air, and making \n with new line, doesn't work, and in development status!
 			 message.colorCodes(sender, message.replace("[", "]", "\n", "", "", " ", "messages.help", lifesteal));
