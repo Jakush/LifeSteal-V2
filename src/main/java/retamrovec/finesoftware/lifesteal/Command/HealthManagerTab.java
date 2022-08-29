@@ -25,7 +25,7 @@ public class HealthManagerTab implements TabCompleter {
 		final List<String> tab = new ArrayList<>();
 		
 		if (args.length == 1) {
-			return StringUtil.copyPartialMatches(args[0], Arrays.asList("author","help","reload","spigotmc","set","send","recipe","showRecipe","ver","version"), tab);
+			return StringUtil.copyPartialMatches(args[0], Arrays.asList("author","help","reload","spigotmc","set","send","recipe","showRecipe","ver","version","revive"), tab);
 		}
 		if (args.length == 2) {
 			List<String> names = new ArrayList<>();

@@ -27,12 +27,10 @@ public class PlayerReviveEvent extends Event implements Cancellable {
     }
 
     public OfflinePlayer getPlayer(){return player;}
-    public String getMessage(){return message;}
     @Override
     public boolean isCancelled(){return cancelled;}
     @Override
     public void setCancelled(boolean b){this.cancelled = b;}
-    public void setMessage(String message){this.message = message;}
     @Override
     public @NotNull HandlerList getHandlers(){return HANDLERS;}
     public static HandlerList getHandlerList(){return HANDLERS;}

@@ -53,7 +53,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		pm.registerEvents(this, this);
 		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, Message, debug, heart));
 		getCommand("lifesteal").setTabCompleter(new HealthManagerTab(this));
-		if (configVersion == null || getConfig().getString("plugin.version").isEmpty()) {
+		if (getConfig().getString("plugin.version") == null || getConfig().getString("plugin.version").isEmpty()) {
 			Bukkit.getPluginManager().disablePlugin(this);
 			getLogger().info("Restart server for functionality.");
 		}
