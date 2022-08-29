@@ -92,7 +92,7 @@ recipe:
   ingredients:
     first: GOLD_INGOT
     second: DIAMOND
-    thirst: GOLD_INGOT
+    third: GOLD_INGOT
     fourth: DIAMOND
     fifth: NETHERITE_INGOT
     sixth: DIAMOND

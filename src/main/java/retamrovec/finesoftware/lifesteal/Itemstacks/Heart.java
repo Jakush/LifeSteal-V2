@@ -41,7 +41,7 @@ public class Heart {
                     "egn");
             recipe.setIngredient('f', Material.matchMaterial(l.getConfig().getString("recipe.ingredients.first")));
             recipe.setIngredient('s', Material.matchMaterial(l.getConfig().getString("recipe.ingredients.second")));
-            recipe.setIngredient('t', Material.matchMaterial(l.getConfig().getString("recipe.ingredients.thirst")));
+            recipe.setIngredient('t', Material.matchMaterial(l.getConfig().getString("recipe.ingredients.third")));
             recipe.setIngredient('o', Material.matchMaterial(l.getConfig().getString("recipe.ingredients.fourth")));
             recipe.setIngredient('i', Material.matchMaterial(l.getConfig().getString("recipe.ingredients.fifth")));
             recipe.setIngredient('x', Material.matchMaterial(l.getConfig().getString("recipe.ingredients.sixth")));
@@ -54,7 +54,7 @@ public class Heart {
     }
 
     public void init(JavaPlugin plugin) {
-            Bukkit.getServer().removeRecipe(this.key(plugin));
+        Bukkit.getServer().removeRecipe(this.key(plugin));
         register(plugin);
     }
 

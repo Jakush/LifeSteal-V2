@@ -14,6 +14,7 @@ import retamrovec.finesoftware.lifesteal.Events.CommandUseEvent;
 import retamrovec.finesoftware.lifesteal.Events.PlayerReviveEvent;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
 import retamrovec.finesoftware.lifesteal.Manager.*;
+import retamrovec.finesoftware.lifesteal.Storage.Edit;
 
 public class HealthManager implements CommandExecutor {
 
@@ -361,9 +362,13 @@ public class HealthManager implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', lifesteal.getConfig().getString("error.without_perm")));
 				return false;
 			}
-			debug.init("Opening inventory.");
 			// Making and casting sender to player
 			Player player = (Player) sender;
+			// Creating option for editing recipe
+			debug.init("Creating option to edit recipe.");
+			new Edit(player);
+			Edit.setStatus(true);
+			debug.init("Opening inventory.");
 			// Creating inventory and then opening
 			ccg.CreateInventory();
 			ccg.OpenInventory(player);

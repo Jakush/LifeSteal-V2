@@ -30,6 +30,7 @@ import retamrovec.finesoftware.lifesteal.Listeners.PlayerDeathListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerItemConsumeListener;
 import retamrovec.finesoftware.lifesteal.Listeners.PlayerJoinListener;
 import retamrovec.finesoftware.lifesteal.Manager.*;
+import retamrovec.finesoftware.lifesteal.Storage.Edit;
 
 public class LifeSteal extends JavaPlugin implements Listener {
 
@@ -45,11 +46,12 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		Message Message = new Message();
 		DebugHandler debug = new DebugHandler(this);
 		Heart heart = new Heart(this);
+		Edit edit = new Edit(null);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerItemConsumeListener(heart, this, debug), this);
 		pm.registerEvents(new PlayerDeathListener(this), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
-		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this)), this);
+		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this), heart, debug), this);
 		pm.registerEvents(this, this);
 		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, Message, debug, heart));
 		getCommand("lifesteal").setTabCompleter(new HealthManagerTab(this));
