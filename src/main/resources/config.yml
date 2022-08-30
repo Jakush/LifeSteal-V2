@@ -33,7 +33,9 @@ messages:
   hearts_sent: '&cLS &a>> &7You sent some hearts to &%player_name%&7 your new amount of hearts is %player_max_health%.'
   recipe_showed: '&cLS &a>> &7Recipe has been showed.'
   recipe_changed: '&cLS &a>> &7Recipe successfully changed!'
+  #
   # messages.help DON'T WORK, IN NEWER VERSIONS THIS MAYBE ALREADY WORK!
+  #
   help:
     - '&cLS &a>> &7HELP\n'
     - '&7You can use /ls, /lifesteal or /lfs to use plugin commands.\n'
