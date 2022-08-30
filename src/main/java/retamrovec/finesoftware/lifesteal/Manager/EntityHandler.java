@@ -1,6 +1,7 @@
 package retamrovec.finesoftware.lifesteal.Manager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -20,6 +21,10 @@ public class EntityHandler {
 
     public static Player castConsole(HumanEntity sender) {
         return (Player) sender;
+    }
+
+    public static Player castOffline(OfflinePlayer player) {
+        return (Player) player;
     }
 
     @Contract(pure = true)

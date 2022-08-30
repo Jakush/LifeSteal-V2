@@ -89,6 +89,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 				   "| Developer mode is enabled.                |", "| Developer mode is disabled.               |", debug);
 		debug.info("|                                           |");
 		debug.info("|-------------------------------------------|");
+		debug.info(" ");
 	}
 	
 	public void onDisable() {
@@ -100,6 +101,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		debug.info("| Fine LifeSteal un-initialization is done! |");
 		debug.info("|                                           |");
 		debug.info("|-------------------------------------------|");
+		debug.info(" ");
 		saveConfig();
 	}
 

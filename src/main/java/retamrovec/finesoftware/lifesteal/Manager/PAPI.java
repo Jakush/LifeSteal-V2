@@ -3,6 +3,7 @@ package retamrovec.finesoftware.lifesteal.Manager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
@@ -40,13 +41,17 @@ public class PAPI extends PlaceholderExpansion {
         }
     }
 
-    public static String usePlaceholder(Player player, String string) {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            String message = string;
-            message = PlaceholderAPI.setPlaceholders(player, message);
+    public static @NotNull String usePlaceholder(Player player, String string) {
+        String message = string;
+        message = PlaceholderAPI.setPlaceholders(player, message);
 
-            return message;
-        }
-        return null;
+        return message;
+    }
+
+    public static @NotNull String usePlaceholder(OfflinePlayer player, String string) {
+        String message = string;
+        message = PlaceholderAPI.setPlaceholders(player, message);
+
+        return message;
     }
 }

@@ -1,19 +1,5 @@
-# ##########################################################################################################
-# #												                                                         # #
-# #  ##        ##  #######  ##########       ##########  ##########  ##########    ########   ##         # #
-# #  ##        ##  ##       ##             ##          	    ##      ##          ##        ##  ##         # #
-# #  ##            ##       ##             ##		        ##      ##          ##        ##  ##         # #
-# #  ##        ##  #####    ######           ########       ##      ######      ##        ##  ##         # #
-# #  ##        ##  ##       ######                   ##     ##      ######      ############  ##	     # #
-# #  ##        ##  ##       ##                       ##     ##      ##          ##        ##  ##	     # #
-# #  ########  ##  ##       ##                       ##     ##      ##          ##        ##  ##         # #
-# #  ########  ##  ##       ##########     ##########       ##      ##########  ##        ##  ########   # #
-# #													                                                     # #
-# ##########################################################################################################
 #
 # Author: RETAMROVEC
-#
-# Translated config.yml
 #
 plugin:
   version: null
@@ -40,14 +26,10 @@ messages:
   update_available_notify: '&cLS &a>> &7New update is available, download new version
     at &a/lifesteal spigotmc&7.'
   #
-  # For both methods, there are available some placeholders.
-  # {target} = player, you giving a heart - work for one message (hearts_send
-  # {sender} = player, who gived you a heart - work for one message (hearts_get)
-  # {amount} = gived amount of hearts - work for both messages (hearts_sent & hearts_get)
-  # In both messages you can use {prefix} and {suffix}, so for example, in hearts.get you can get sender's prefix and suffix.
+  # Please read this if you want to know what placeholders you should use and why it is different.
   #
-  hearts_get: '&cLS &a>> &7You get &c{amount} &7hearts from &a{sender}&7.'
-  hearts_sent: '&cLS &a>> &7You sent &c{amount} &7hearts to &a{target}&7.'
+  hearts_get: '&cLS &a>> &7You get some hearts from &a%player_name%&7 your new amount of hearts is %player_max_health%.'
+  hearts_sent: '&cLS &a>> &7You sent some hearts to &%player_name%&7 your new amount of hearts is %player_max_health%.'
   recipe_showed: '&cLS &a>> &7Recipe has been showed.'
   recipe_changed: '&cLS &a>> &7Recipe successfully changed!'
   # messages.help DON'T WORK, IN NEWER VERSIONS THIS MAYBE ALREADY WORK!

@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
 import retamrovec.finesoftware.lifesteal.Manager.PAPI;
+import retamrovec.finesoftware.lifesteal.Storage.Eliminate;
 
 public class PlayerDeathListener implements Listener {
 	
@@ -42,10 +43,12 @@ public class PlayerDeathListener implements Listener {
 									
 								}
 								
-								else if (lifesteal.getConfig().getInt("player." + player.getName()) < 4) {
+								else if (lifesteal.getConfig().getInt("player." + player.getName()) < 3) {
 									
 									Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))), null, null);
 									player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))));
+									new Eliminate(player.getName());
+									Eliminate.setStatus(true);
 								}
 							} else {
 								player.sendMessage(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.player_isnt_registered"))));
@@ -68,15 +71,7 @@ public class PlayerDeathListener implements Listener {
 							killer.setMaxHealth(playerHealth2);
 							
 						}
-						if (lifesteal.getConfig().getInt("player." + player.getName()) < 4) {
-
-							lifesteal.getConfig().set("player." + player.getName(), lifesteal.getConfig().getInt("player." + player.getName()) - 2);
-
-							lifesteal.saveConfig();
-
-							Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))), null, null);
-							player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))));
-						} else {
+						else {
 							if (!(lifesteal.getConfig().getInt("player." + player.getName()) == 2)) {
 
 								lifesteal.getConfig().set("player." + player.getName(), lifesteal.getConfig().getInt("player." + player.getName()) - 2);
