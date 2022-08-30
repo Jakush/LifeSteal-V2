@@ -1,6 +1,7 @@
 package retamrovec.finesoftware.lifesteal.Manager;
 
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -19,6 +20,18 @@ public class Message {
 
     public static void colorCodes(@NotNull Player player, @NotNull String message) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+
+    public static void colorCodesPAPI(@NotNull Player player, String message) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, message)));
+    }
+
+    public static void colorCodesPAPI(CommandSender sender, @NotNull Player player, String message) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, message)));
+    }
+
+    public static void colorCodesPAPI(CommandSender sender, @NotNull OfflinePlayer player, String message) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, message)));
     }
 
     public static void isAllowed(boolean bool, String trueMessage, String falseMessage, DebugHandler debug) {

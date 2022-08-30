@@ -40,15 +40,15 @@ public class HealthManager implements CommandExecutor {
 			 (replacing [ and ] with air, and making \n with new line, doesn't work, and in development status!
 			 message.colorCodes(sender, message.replace("[", "]", "\n", "", "", " ", "messages.help", lifesteal));
 			 */
-			Message.colorCodes(sender, "&cLS &a>> &7HELP");
-			Message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
-			Message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
-			Message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
-			Message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
-			Message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
-			Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
-			Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
-			Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
+			Message.colorCodesPAPI((Player) sender, "&cLS &a>> &7HELP");
+			Message.colorCodesPAPI((Player) sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
+			Message.colorCodesPAPI((Player) sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifesteal reload &a(Reload config.yml)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifesteal author &a(Shows who is author)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifeSteal help &a(Send all available commands)");
 			debug.init("Sending message.");
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
@@ -63,32 +63,32 @@ public class HealthManager implements CommandExecutor {
 			if (!sender.hasPermission("lifesteal.revive")) {
 				// Message
 				debug.init("Sending message.");
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.without_perm")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.without_perm"));
 				return false;
 			}
 			if (args.length < 2) {
 				debug.init("Checking args.");
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.unknown-error")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.unknown-error"));
 				return false;
 			}
 			OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(args[1]);
 			new Eliminate(oPlayer.getName());
 			if (!lifesteal.getConfig().contains("player." + oPlayer.getName())) {
 				debug.init("Sending message.");
-				sender.sendMessage(Message.colour(PAPI.usePlaceholder(oPlayer, lifesteal.getConfig().getString("error.player_isnt_registered"))));
+				Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("error.player_isnt_registered"));
 				return false;
 			}
 			lifesteal.getConfig().set("player." + oPlayer.getName(), 20);
 			lifesteal.saveConfig();
 			if (!Eliminate.getStatus()) {
 				debug.error("Sending message.");
-				sender.sendMessage(Message.colour(PAPI.usePlaceholder(oPlayer, lifesteal.getConfig().getString("error.player-is-alive"))));
+				Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("error.player-is-alive"));
 				return false;
 			}
 			debug.init("Checking banlist and removing ban from " + oPlayer.getName());
 			Bukkit.getBanList(BanList.Type.NAME).pardon(oPlayer.getName());
 			debug.init("Sending message.");
-			sender.sendMessage(Message.colour(PAPI.usePlaceholder(oPlayer, lifesteal.getConfig().getString("messages.player-revived"))));
+			Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("messages.player-revived"));
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
 				Bukkit.getPluginManager().callEvent(commandUseEvent);
@@ -115,22 +115,22 @@ public class HealthManager implements CommandExecutor {
 			if (!sender.hasPermission("lifesteal.admin")) {
 				debug.init("Sending message.");
 				// Message
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.without_perm")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.without_perm"));
 				return false;
 			}
 			/* @Deprecated
 			 (replacing [ and ] with air, and making \n with new line, doesn't work, and in development status!
 			 message.colorCodes(sender, message.replace("[", "]", "\n", "", "", " ", "messages.help", lifesteal));
 			 */
-			Message.colorCodes(sender, "&cLS &a>> &7HELP");
-			Message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
-			Message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
-			Message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
-			Message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
-			Message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
-			Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
-			Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
-			Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
+			Message.colorCodesPAPI((Player) sender, "&cLS &a>> &7HELP");
+			Message.colorCodesPAPI((Player) sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
+			Message.colorCodesPAPI((Player) sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifesteal reload &a(Reload config.yml)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifesteal author &a(Shows who is author)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
+			Message.colorCodesPAPI((Player) sender, "&7/lifeSteal help &a(Send all available commands)");
 			debug.init("Sending message.");
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
@@ -146,13 +146,13 @@ public class HealthManager implements CommandExecutor {
 			if (!sender.hasPermission("lifesteal.admin")) {
 				debug.init("Sending message.");
 				// Message
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.without_perm")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.without_perm"));
 				return false;
 			}
 			// If args are bigger or smaller than 2
 			if (!(args.length == 3)) {
 				debug.init("Checking args.");
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.amount_not_exist")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.amount_not_exist"));
 				return false;
 			}
 			// target
@@ -160,13 +160,13 @@ public class HealthManager implements CommandExecutor {
 			// Checks if target is null
 			if (target == null) {
 				debug.error("Target is null.");
-				sender.sendMessage(Message.colour(PAPI.usePlaceholder(EntityHandler.castConsole(sender), lifesteal.getConfig().getString("player-is-null"))));
+				Message.colorCodesPAPI(sender, target, lifesteal.getConfig().getString("player-is-null"));
 				return false;
 			}
 			// If args[2] are not under 40 hearts (arg[2] are bigger)
 			if (Integer.parseInt(args[2]) > 40) {
 				debug.error("Invalid amount of hearts.");
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.too_big_amount_of_hearts")));
+				Message.colorCodesPAPI(sender, target, lifesteal.getConfig().getString("error.too_big_amount_of_hearts"));
 				return false;
 			}
 			// Get amount of hearts in command
@@ -179,8 +179,7 @@ public class HealthManager implements CommandExecutor {
 			debug.init("Saving config.yml");
 			lifesteal.saveConfig();
 			// Message
-
-			sender.sendMessage(Message.colour(lifesteal.getConfig().getString("messages.changed_amount_of_health")));
+			Message.colorCodesPAPI(sender, target, lifesteal.getConfig().getString("messages.changed_amount_of_health"));
 			debug.init("Sending message.");
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
@@ -194,7 +193,7 @@ public class HealthManager implements CommandExecutor {
 			// If sender has permission lifesteal.admin
 			if (!sender.hasPermission("lifesteal.admin")) {
 				// Message
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.without_perm")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.without_perm"));
 				return false;
 			}
 			for (Player player : Bukkit.getOnlinePlayers()) {
@@ -208,7 +207,7 @@ public class HealthManager implements CommandExecutor {
 					// Reset amount of hearts in config (saveConfig is very important)!
 					lifesteal.getConfig().set("player." + player.getName(), 20);
 					lifesteal.saveConfig();
-					Message.colorCodes(player, lifesteal.getConfig().getString("error.too_much_hearts"));
+					Message.colorCodesPAPI(player, lifesteal.getConfig().getString("error.too_much_hearts"));
 				} else {
 					// Set amount of hearts to new amount of hearts in config
 					player.setMaxHealth(amount);
@@ -219,7 +218,7 @@ public class HealthManager implements CommandExecutor {
 			// Reloads configuration (that's what should /lifeSteal reload do)
 			lifesteal.reloadConfig();
 			// Message
-			Message.colorCodes(sender, lifesteal.getConfig().getString("messages.config_reloaded"));
+			Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("messages.config_reloaded"));
 			debug.init("Sending message.");
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
@@ -284,12 +283,12 @@ public class HealthManager implements CommandExecutor {
 			// If sender has permission lifesteal.send
 			if (!sender.hasPermission("lifesteal.send")) {
 				// Message
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.without_perm")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.without_perm"));
 				return false;
 			}
 			if (args.length < 2) {
 				debug.init("Args are smaller than 2.");
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.unknown-error")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.unknown-error"));
 				return false;
 			}
 			// Target from args[1]
@@ -301,18 +300,18 @@ public class HealthManager implements CommandExecutor {
 			// If target is null
 			if (target == null) {
 				// Message
-				sender.sendMessage(Message.colour(PAPI.usePlaceholder(EntityHandler.castConsole(sender), lifesteal.getConfig().getString("player-is-null"))));
+				Message.colorCodesPAPI(senderPlayer, lifesteal.getConfig().getString("player-is-null"));
 				return false;
 			}
 			// If target have same named as sender
 			if (target.getName().equals(name)) {
 				// Message
-				sender.sendMessage(Message.colour("&cLS &a>> &7You can't send your hearts to you."));
+				Message.colorCodesPAPI(senderPlayer, "&cLS &a>> &7You can't send your hearts to you.");
 				return false;
 			}
 			// If args[2] are smaller than health of senderPlayer (sender)
 			if (!(Integer.parseInt(args[2]) < senderPlayer.getMaxHealth())) {
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.too_big_amount_of_hearts")));
+				Message.colorCodesPAPI(senderPlayer, lifesteal.getConfig().getString("error.too_big_amount_of_hearts"));
 				return false;
 			}
 			// Making args[2] to double (because setMaxHealth supports only double)
@@ -331,9 +330,8 @@ public class HealthManager implements CommandExecutor {
 			lifesteal.getConfig().set("player." + name, senderPlayer.getMaxHealth() - amount);
 			lifesteal.saveConfig();
 			// Messages with placeholders {target}, {sender}, {amount}, {prefix} and {suffix}
-			sender.sendMessage(Message.colour(PAPI.usePlaceholder(target, lifesteal.getConfig().getString("messages.hearts_sent"))));
-			target.sendMessage(Message.colour(PAPI.usePlaceholder(senderPlayer, lifesteal.getConfig().getString("messages.hearts_get"))));
-			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			Message.colorCodesPAPI(senderPlayer, lifesteal.getConfig().getString("messages.hearts_sent"));
+			Message.colorCodesPAPI(target, lifesteal.getConfig().getString("messages.hearts_get"));CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
 				Bukkit.getPluginManager().callEvent(commandUseEvent);
 			}
@@ -344,7 +342,7 @@ public class HealthManager implements CommandExecutor {
 			// If sender has permission lifesteal.send
 			if (!sender.hasPermission("lifesteal.recipe")) {
 				// Message
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.without_perm")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.without_perm"));
 				return false;
 			}
 			// Making and casting sender to player
@@ -353,7 +351,7 @@ public class HealthManager implements CommandExecutor {
 			ccg.CreateInventory();
 			ccg.OpenInventory(player);
 			// Message
-			sender.sendMessage(Message.colour(lifesteal.getConfig().getString("messages.recipe_showed")));
+			Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
 				Bukkit.getPluginManager().callEvent(commandUseEvent);
@@ -365,7 +363,7 @@ public class HealthManager implements CommandExecutor {
 			debug.init("Checking permissions.");
 			if (!sender.hasPermission("lifesteal.editRecipe")) {
 				// Message
-				sender.sendMessage(Message.colour(lifesteal.getConfig().getString("error.without_perm")));
+				Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("error.without_perm"));
 				return false;
 			}
 			// Making and casting sender to player
@@ -379,22 +377,22 @@ public class HealthManager implements CommandExecutor {
 			ccg.CreateInventory();
 			ccg.OpenInventory(player);
 			// Message
-			sender.sendMessage(Message.colour(lifesteal.getConfig().getString("messages.recipe_showed")));
+			Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("messages.recipe_showed"));
 			return true;
 		}
 			/* @Deprecated
 			 (replacing [ and ] with air, and making \n with new line, doesn't work, and in development status!
 			 message.colorCodes(sender, message.replace("[", "]", "\n", "", "", " ", "messages.help", lifesteal));
 			 */
-		Message.colorCodes(sender, "&cLS &a>> &7HELP");
-		Message.colorCodes(sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
-		Message.colorCodes(sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
-		Message.colorCodes(sender, "&7/lifesteal reload &a(Reload config.yml)");
-		Message.colorCodes(sender, "&7/lifesteal author &a(Shows who is author)");
-		Message.colorCodes(sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
-		Message.colorCodes(sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
-		Message.colorCodes(sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
-		Message.colorCodes(sender, "&7/lifeSteal help &a(Send all available commands)");
+		Message.colorCodesPAPI((Player) sender, "&cLS &a>> &7HELP");
+		Message.colorCodesPAPI((Player) sender, "&7You can use /ls, /lifesteal or /lfs to use plugin commands.");
+		Message.colorCodesPAPI((Player) sender, "&7/lifesteal set <online player> <amount of hearts> &a(Set specific amount of hearts to player)");
+		Message.colorCodesPAPI((Player) sender, "&7/lifesteal reload &a(Reload config.yml)");
+		Message.colorCodesPAPI((Player) sender, "&7/lifesteal author &a(Shows who is author)");
+		Message.colorCodesPAPI((Player) sender, "&7/lifeSteal spigotMC &a(Sends where plugin can be downloaded)");
+		Message.colorCodesPAPI((Player) sender, "&7/lifeSteal send &a(You can send some of your hearts to other player)");
+		Message.colorCodesPAPI((Player) sender, "&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)");
+		Message.colorCodesPAPI((Player) sender, "&7/lifeSteal help &a(Send all available commands)");
 		CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 		if (!commandUseEvent.isCancelled()) {
 			Bukkit.getPluginManager().callEvent(commandUseEvent);

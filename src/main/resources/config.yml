@@ -27,6 +27,7 @@ messages:
     at &a/lifesteal spigotmc&7.'
   #
   # Please read this if you want to know what placeholders you should use and why it is different.
+  # https://retamrovec.gitbook.io/fine-lifesteal/lifesteal/migrating-from-v8-placeholders
   #
   hearts_get: '&cLS &a>> &7You get some hearts from &a%player_name%&7 your new amount of hearts is %player_max_health%.'
   hearts_sent: '&cLS &a>> &7You sent some hearts to &%player_name%&7 your new amount of hearts is %player_max_health%.'
@@ -43,7 +44,7 @@ messages:
     - '&7/lifeSteal send &a(You can send some of your hearts to other player)\n'
     - '&7/lifeSteal recipe&c/&7showRecipe &a(Show recipe inGame)\n'
     - '&7/lifeSteal help &a(Send all available commands)'
-  player-revived: '&cLS &a>> &7You revived player &c{player}&7.'
+  player-revived: '&cLS &a>> &7You revived player &c%player_name%&7.'
 config:
   #
   # True = yes
