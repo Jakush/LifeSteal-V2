@@ -1,6 +1,5 @@
 package retamrovec.finesoftware.lifesteal.Command;
 
-import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -74,8 +73,7 @@ public class HealthManager implements CommandExecutor {
 			OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(args[1]);
 			new Eliminate(oPlayer.getName());
 			if (!lifesteal.getConfig().contains("player." + oPlayer.getName())) {
-				debug.init("Sending message.");
-				Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("error.player_isnt_registered"));
+				debug.error("Player " + oPlayer.getName() + " is not configuration. Cancelling event, if issue is there even after rejoin, please report it on support.");
 				return false;
 			}
 			lifesteal.getConfig().set("player." + oPlayer.getName(), 20);
@@ -85,8 +83,7 @@ public class HealthManager implements CommandExecutor {
 				Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("error.player-is-alive"));
 				return false;
 			}
-			debug.init("Checking banlist and removing ban from " + oPlayer.getName());
-			Bukkit.getBanList(BanList.Type.NAME).pardon(oPlayer.getName());
+			SettingsHandler.runReviveCommands(lifesteal, oPlayer);
 			debug.init("Sending message.");
 			Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("messages.player-revived"));
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);

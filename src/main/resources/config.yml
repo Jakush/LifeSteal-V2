@@ -7,11 +7,11 @@ error:
   amount_not_exist: '&cLS &a>> &7Write amount of hearts you want to give to another
     player, each two numbers equals one heart!'
   zero_health_ban: '&cLS &a>> &7You has been banned for zero hearts on server.'
-  without_perm: '&cLS &a>> &7You didnt have enough permissions to do that.'
+  without_perm: '&cLS &a>> &7You did't have enough permissions to do that.'
   player_isnt_registered: '&cLS &a>> &7This player is not registered in configuration.'
-  cannot_use_shift: '&cLS &a>> &7Dont use shift while crafting, for preventing bug,
+  cannot_use_shift: '&cLS &a>> &7Don't use shift while crafting, for preventing bug,
     this feature is disabled.'
-  too_much_hearts: '&cLS &a>> &7Because you had more HP than 40, your HP got cutted
+  too_much_hearts: '&cLS &a>> &7Because you had more HP than 40, your HP got cut
     to 20 HP.'
   too_big_amount_of_hearts: '&cLS &a>> &7You cant have more hearts than 40.'
   cant_withdraw_to_yourself: '&cLS &a>> &7Cant withdraw hearts to yourself. You must withdraw to any player, but not you.'
@@ -66,16 +66,27 @@ config:
   # Please don't disable this option, this motivates developer to make more and more updates, but if you really want to disable bStats, here you can!
   #
   bStats: true
+  #
+  # Don't remove beacons because when new revive beacon will be placed, it will be saved there!
+  #
+beacons:
+  example: "1, 1, 1"
+hologram:
+  #
+  # Hologram in revive beacon
+  #
+  1: "&b&lRevive Beacon"
+  2: "&7You must wait &c%lifesteal_revive_count% &7seconds"
+  3: "&7for revive!"
 recipe:
   #
   # This section is for people, who need own recipe.
-  # If you doesn't need special recipe, don't change this.
-  # If you changing this, there is list of materials.
+  # If you're changing this, there is list of materials.
   # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
   # If you need number where is what item, here is link 
   # https://imgur.com/a/PHN95Zu
-  # !! FOR NOTHING IN SLOT, USE MATERIAL "AIR" !!
-  # !! ALSO, YOU NEED TO /RELOAD OR RESTART YOUR SERVER TO TAKE CHANGES !!
+  # For nothing in slot, please use "AIR".
+  # But use command /lifesteal editRecipe to editRecipe for easier editing.
   #
   ingredients:
     first: GOLD_INGOT
@@ -87,14 +98,29 @@ recipe:
     seventh: GOLD_INGOT
     eighth: DIAMOND
     ninth: GOLD_INGOT
+  #
+  # Same as heart recipe.
+  #
+  revive:
+    beacon:
+      ingredients:
+        first: NETHERITE_INGOT
+        second: DIAMOND
+        third: NETHERITE_INGOT
+        fourth: AIR
+        fifth: NETHER_STAR
+        sixth: AIR
+        seventh: NETHERITE_INGOT
+        eighth: AIR
+        ninth: NETHERITE_INGOT
 developer:
   #
-  # This is only option for developer, you can enable it but you don't need it for features.
+  # This is only option for developer, you can enable it, but you don't need it for features.
   #
   enable: false
 player:
   #
-  # This section is about how many hearts player have. If you delete config, then data will be deleted with it too.
+  # This section is about how many heart's player have. If you delete config, then data will be deleted with it too.
   # You can change amount of hearts, but don't use 0 or 40 but not 41 and more.
   # Default amount of hearts is 20, that is default amount of hearts for vanilla, and non-modified hearts too.
   #

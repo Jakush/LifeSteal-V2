@@ -37,7 +37,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		Heart heart = new Heart(this);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerItemConsumeListener(heart, this, debug), this);
-		pm.registerEvents(new PlayerDeathListener(this), this);
+		pm.registerEvents(new PlayerDeathListener(this, debug), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
 		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this), heart, debug), this);
 		pm.registerEvents(this, this);

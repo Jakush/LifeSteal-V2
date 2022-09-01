@@ -1,96 +1,74 @@
 package retamrovec.finesoftware.lifesteal.Listeners;
 
-import org.bukkit.BanList;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
-import retamrovec.finesoftware.lifesteal.Manager.PAPI;
-import retamrovec.finesoftware.lifesteal.Storage.Eliminate;
+import retamrovec.finesoftware.lifesteal.Manager.DebugHandler;
+import retamrovec.finesoftware.lifesteal.Manager.SettingsHandler;
 
 public class PlayerDeathListener implements Listener {
 	
 	LifeSteal lifesteal;
-	public PlayerDeathListener (LifeSteal lifesteal) {
+	DebugHandler debug;
+	public PlayerDeathListener (LifeSteal lifesteal, DebugHandler debug) {
 		this.lifesteal = lifesteal;
+		this.debug = debug;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler (priority = EventPriority.HIGHEST)
-	public void onDeath(PlayerDeathEvent e){ 
-			Player player = e.getEntity();
-			Player killer = player.getKiller();
-
-			if (!player.hasPermission("lifesteal.ignore")) {
-				
-				if (!(killer instanceof Player)) {
-					
-					if (lifesteal.getConfig().getBoolean("config.lose_hearts_on_mobs")) {
-							
-							if (lifesteal.getConfig().contains("player." + player.getName())) {
-								
-								if (!(lifesteal.getConfig().getInt("player." + player.getName()) == 2)) {
-									
-									lifesteal.getConfig().set("player." + player.getName(), lifesteal.getConfig().getInt("player." + player.getName()) - 2);
-									
-									lifesteal.saveConfig();
-									
-									player.setMaxHealth(lifesteal.getConfig().getInt("player." + player.getName()));
-									
-								}
-								
-								else if (lifesteal.getConfig().getInt("player." + player.getName()) < 3) {
-									
-									Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))), null, null);
-									player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))));
-									new Eliminate(player.getName());
-									Eliminate.setStatus(true);
-								}
-							} else {
-								player.sendMessage(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.player_isnt_registered"))));
-						}
-					}					
-				}
-				else if (killer instanceof Player) {
-					if (lifesteal.getConfig().contains("player." + killer.getName())) {
-													
-						if (lifesteal.getConfig().getInt("player." + killer.getName()) < 40) {
-
-							int playerHealth = lifesteal.getConfig().getInt("player." + killer.getName());
-							
-							lifesteal.getConfig().set("player." + killer.getName(), playerHealth + 2);
-
-							lifesteal.saveConfig();
-
-							int playerHealth2 = lifesteal.getConfig().getInt("player." + killer.getName());
-
-							killer.setMaxHealth(playerHealth2);
-							
-						}
-						else {
-							if (!(lifesteal.getConfig().getInt("player." + player.getName()) == 2)) {
-
-								lifesteal.getConfig().set("player." + player.getName(), lifesteal.getConfig().getInt("player." + player.getName()) - 2);
-
-								lifesteal.saveConfig();
-
-								player.setMaxHealth(lifesteal.getConfig().getInt("player." + player.getName()));
-
-							}
-						}
-
-					}
-					else {
-						Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.player_isnt_registered"))));
-					}
-				}
-
+	public void onDeath(PlayerDeathEvent e) {
+		Player player = e.getEntity();
+		Player killer = e.getEntity().getKiller();
+		// If player don't have permission lifesteal.ignore
+		if (!player.hasPermission("lifesteal.ignore")) {
+			// Check if player is in config.
+			if (!lifesteal.getConfig().contains("player." + player.getName())) {
+				debug.error("Player " + player.getName() + " is not configuration. Cancelling event, if issue is there even after rejoin, please report it on support.");
+				return;
 			}
-		
+			// If killer is player, give him some hearts
+			if (killer != null) {
+				// Check if killer is in config.
+				if (!lifesteal.getConfig().contains("player." + killer.getName())) {
+					debug.error("Player " + killer.getName() + " is not configuration. Cancelling event, if issue is there even after rejoin, please report it on support.");
+					return;
+				}
+				if (killer.getMaxHealth() > 40) {
+					// Changing and saving value on config
+					lifesteal.getConfig().set("player." + killer.getName(), lifesteal.getConfig().getInt("player." + killer.getName()) + 2);
+					lifesteal.saveConfig();
+					// Changing value in-game
+					killer.setMaxHealth(killer.getMaxHealth());
+				}
+				if (player.getMaxHealth() <= 2) {
+					// Run all commands in config
+					SettingsHandler.runEliminateCommands(lifesteal, player);
+					return;
+				}
+				// Changing and saving value on config
+				lifesteal.getConfig().set("player." + player.getName(), lifesteal.getConfig().getInt("player." + player.getName()) -2);
+				lifesteal.saveConfig();
+				// Changing value in-game
+				player.setMaxHealth(killer.getMaxHealth());
+				return;
+			}
+			if (SettingsHandler.loseHeartsOnMobs(lifesteal)) {
+				if (player.getMaxHealth() <= 2) {
+					// Run all commands in config
+					SettingsHandler.runEliminateCommands(lifesteal, player);
+					return;
+				}
+				// Changing and saving value on config
+				lifesteal.getConfig().set("player." + player.getName(), lifesteal.getConfig().getInt("player." + player.getName()) -2);
+				lifesteal.saveConfig();
+				// Changing value in-game
+				player.setMaxHealth(killer.getMaxHealth());
+				return;
+			}
+		}
 	}
 
 }
