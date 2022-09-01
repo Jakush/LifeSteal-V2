@@ -16,7 +16,7 @@ public class CustomCraftingGUI {
 		this.l = l;
 	}
 	
-	public Inventory CreateInventory() {
+	public Inventory CreateHeartInventory() {
 		Inventory inv = Bukkit.createInventory(null, InventoryType.WORKBENCH, ChatColor.translateAlternateColorCodes('&', "&cHeart &arecipe"));
 		
 		// Gold_Ingot | Diamond         | Gold_Ingot
@@ -36,8 +36,8 @@ public class CustomCraftingGUI {
 		return inv;
 	}
 	
-	public void OpenInventory(Player p) {
-		p.openInventory(CreateInventory());
+	public void OpenHeartInventory(Player p) {
+		p.openInventory(CreateHeartInventory());
 	}
 
 }

@@ -24,6 +24,7 @@ public class BlockPlaceListener implements Listener {
                     lifeSteal.getConfig().getString("hologram.2"),
                     lifeSteal.getConfig().getString("hologram.3")
             };
+            HologramHandler.newHologram(hologram, e.getPlayer().getName(), block.getLocation());
         }
     }
 

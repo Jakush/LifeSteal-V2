@@ -345,8 +345,8 @@ public class HealthManager implements CommandExecutor {
 			// Making and casting sender to player
 			Player player = (Player) sender;
 			// Creating inventory and then opening
-			ccg.CreateInventory();
-			ccg.OpenInventory(player);
+			ccg.CreateHeartInventory();
+			ccg.OpenHeartInventory(player);
 			// Message
 			Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
@@ -371,8 +371,8 @@ public class HealthManager implements CommandExecutor {
 			Edit.setStatus(true);
 			debug.init("Opening inventory.");
 			// Creating inventory and then opening
-			ccg.CreateInventory();
-			ccg.OpenInventory(player);
+			ccg.CreateHeartInventory();
+			ccg.OpenHeartInventory(player);
 			// Message
 			Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("messages.recipe_showed"));
 			return true;
