@@ -20,7 +20,7 @@ public class HologramHandler {
             stand.setCustomNameVisible(true);
             stand.setCustomName(Message.colour(line));
             new Hologram("reviveBeacon" + name, location);
-            ConfigManager.set("beacons." + name, location,  lifeSteal);
+            lifeSteal.getConfig().set("beacons." + name, location);
         }
     }
 
