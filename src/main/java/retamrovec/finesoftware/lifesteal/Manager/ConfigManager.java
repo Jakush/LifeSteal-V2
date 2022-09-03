@@ -6,14 +6,7 @@ import retamrovec.finesoftware.lifesteal.LifeSteal;
 
 public class ConfigManager {
 
-    private static LifeSteal lifeSteal;
-    private static DebugHandler debug;
-    public ConfigManager(LifeSteal lifeSteal, DebugHandler debug) {
-        this.lifeSteal = lifeSteal;
-        this.debug = debug;
-    }
-
-    public static @Nullable String getString(String path) {
+    public static @Nullable String getString(String path, LifeSteal lifeSteal, DebugHandler debug) {
         if (lifeSteal.getConfig().getString(path) != null) {
             return lifeSteal.getConfig().getString(path);
         }
@@ -27,7 +20,7 @@ public class ConfigManager {
         return null;
     }
 
-    public static boolean getBoolean(String path) {
+    public static boolean getBoolean(String path, LifeSteal lifeSteal, DebugHandler debug) {
         debug.error("ERROR! THIS IS NOT SPIGOT-SIDE PROBLEM.");
         debug.error("There is boolean (" + path + ") throwing null.");
         debug.error("Its highly recommended to fix this problem.");
@@ -38,7 +31,7 @@ public class ConfigManager {
         return lifeSteal.getConfig().getBoolean(path);
     }
 
-    public static @Nullable double getDouble(String path) {
+    public static @Nullable double getDouble(String path, LifeSteal lifeSteal, DebugHandler debug) {
         if (lifeSteal.getConfig().getDouble(path) != 0.0) {
             return lifeSteal.getConfig().getDouble(path);
         }
@@ -52,7 +45,7 @@ public class ConfigManager {
         return 0.0;
     }
 
-    public static @Nullable int getInt(String path) {
+    public static @Nullable int getInt(String path, LifeSteal lifeSteal, DebugHandler debug) {
         if (lifeSteal.getConfig().getInt(path) != 0) {
             return lifeSteal.getConfig().getInt(path);
         }
@@ -66,7 +59,7 @@ public class ConfigManager {
         return 0;
     }
 
-    public static @Nullable Location getLocation(String path) {
+    public static @Nullable Location getLocation(String path, LifeSteal lifeSteal, DebugHandler debug) {
         if (lifeSteal.getConfig().getLocation(path) != null) {
             return lifeSteal.getConfig().getLocation(path);
         }
@@ -80,7 +73,7 @@ public class ConfigManager {
         return null;
     }
 
-    public static void set(String path, Object value) {
+    public static void set(String path, Object value, LifeSteal lifeSteal) {
         lifeSteal.getConfig().set(path, value);
         lifeSteal.saveConfig();
     }

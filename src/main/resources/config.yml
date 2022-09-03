@@ -7,15 +7,15 @@ error:
   amount_not_exist: '&cLS &a>> &7Write amount of hearts you want to give to another
     player, each two numbers equals one heart!'
   zero_health_ban: '&cLS &a>> &7You has been banned for zero hearts on server.'
-  without_perm: '&cLS &a>> &7You did't have enough permissions to do that.'
+  without_perm: '&cLS &a>> &7You didt have enough permissions to do that.'
   player_isnt_registered: '&cLS &a>> &7This player is not registered in configuration.'
-  cannot_use_shift: '&cLS &a>> &7Don't use shift while crafting, for preventing bug,
+  cannot_use_shift: '&cLS &a>> &7Dont use shift while crafting, for preventing bug,
     this feature is disabled.'
   too_much_hearts: '&cLS &a>> &7Because you had more HP than 40, your HP got cut
     to 20 HP.'
   too_big_amount_of_hearts: '&cLS &a>> &7You cant have more hearts than 40.'
   cant_withdraw_to_yourself: '&cLS &a>> &7Cant withdraw hearts to yourself. You must withdraw to any player, but not you.'
-  cannot_use_command: '&cLS &a>> &7You can´t use this command as console.'
+  cannot_use_command: '&cLS &a>> &7You cant use this command as console.'
   player-is-alive: '&cLS &a>> &7This player is already live.'
   unknown-error: '&cThere is unexpected error! Please report this to server admins for more!'
   player-is-null: '&cLS &a>> &7This target is offline or null.'
@@ -69,6 +69,13 @@ config:
   #
   # Don't remove beacons because when new revive beacon will be placed, it will be saved there!
   #
+  eliminate:
+    commands:
+      - ban %player_name%
+      - say %player_name% is just eliminated.
+  revive:
+    commands:
+      - say %player_name% was just revived.
 beacons:
   example: "1, 1, 1"
 hologram:
@@ -105,7 +112,7 @@ recipe:
     beacon:
       ingredients:
         first: NETHERITE_INGOT
-        second: DIAMOND
+        second: AIR
         third: NETHERITE_INGOT
         fourth: AIR
         fifth: NETHER_STAR

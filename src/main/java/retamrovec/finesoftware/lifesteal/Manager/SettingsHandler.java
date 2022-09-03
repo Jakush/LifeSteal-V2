@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
 import retamrovec.finesoftware.lifesteal.Storage.Eliminate;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsHandler {
+
+    private static int taskID;
 
     public static boolean loseHeartsOnMobs(@NotNull LifeSteal lifeSteal) {
         return lifeSteal.getConfig().getBoolean("config.lose_hearts_on_mobs");
@@ -58,6 +61,22 @@ public class SettingsHandler {
             new Eliminate(player.getName());
             Eliminate.setStatus(false);
         }
+    }
+
+    public static void runRevivingStatus(String name, OfflinePlayer player, LifeSteal lifeSteal) {
+        BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+        taskID = scheduler.scheduleSyncDelayedTask(lifeSteal, () -> {
+            new Eliminate(name);
+            if (Eliminate.getStatus()) {
+                Eliminate.setStatus(false);
+                runReviveCommands(lifeSteal, player);
+            }
+        }, 300L);
+    }
+
+
+    public static int getTaskID() {
+        return taskID;
     }
 
 }

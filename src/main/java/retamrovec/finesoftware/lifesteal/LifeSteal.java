@@ -18,11 +18,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.Command.HealthManager;
 import retamrovec.finesoftware.lifesteal.Command.HealthManagerTab;
+import retamrovec.finesoftware.lifesteal.Itemstacks.Beacon;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
-import retamrovec.finesoftware.lifesteal.Listeners.InventoryClickListener;
-import retamrovec.finesoftware.lifesteal.Listeners.PlayerDeathListener;
-import retamrovec.finesoftware.lifesteal.Listeners.PlayerItemConsumeListener;
-import retamrovec.finesoftware.lifesteal.Listeners.PlayerJoinListener;
+import retamrovec.finesoftware.lifesteal.Listeners.*;
 import retamrovec.finesoftware.lifesteal.Manager.*;
 
 public class LifeSteal extends JavaPlugin implements Listener {
@@ -35,7 +33,11 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		Message Message = new Message();
 		DebugHandler debug = new DebugHandler(this);
 		Heart heart = new Heart(this);
+		Beacon beacon = new Beacon(this, debug);
 		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new EntityDamageByEntityListener(this), this);
+		pm.registerEvents(new BlockPlaceListener(this, debug), this);
+		pm.registerEvents(new BlockBreakListener(this, debug), this);
 		pm.registerEvents(new PlayerItemConsumeListener(heart, this, debug), this);
 		pm.registerEvents(new PlayerDeathListener(this, debug), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
@@ -48,14 +50,12 @@ public class LifeSteal extends JavaPlugin implements Listener {
 			getLogger().info("Restart server for functionality.");
 		}
 		registerConfig();
-		getConfig().options().copyDefaults(true);
-		saveDefaultConfig();
-		saveConfig();
 		getConfig().set("plugin.version", version);
 		saveConfig();
 		getLogger().info("Config.yml was generated..");
 		getLogger().info(ChatColor.translateAlternateColorCodes('&', "Version (" + configVersion + ") has been enabled."));
 		heart.init(this);
+		beacon.init(this);
 		PAPI.init();
 
 		try {
@@ -94,7 +94,6 @@ public class LifeSteal extends JavaPlugin implements Listener {
 	
 	public void onDisable() {
 		DebugHandler debug = new DebugHandler(this);
-		String configVersion = getConfig().getString("plugin.version");
 		debug.info(" ");
 		debug.info("|-------------------------------------------|");
 		debug.info("|                                           |");
@@ -123,7 +122,9 @@ public class LifeSteal extends JavaPlugin implements Listener {
         File config = new File(this.getDataFolder(), "config.yml");
         if (!config.exists()) {
     		getLogger().info("Generating config.yml... It can take a while.");
-            saveDefaultConfig();
+			getConfig().options().copyDefaults(true);
+			saveDefaultConfig();
+			saveConfig();
         }
     }
 	

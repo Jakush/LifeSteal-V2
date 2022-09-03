@@ -10,6 +10,8 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
+import retamrovec.finesoftware.lifesteal.Manager.ConfigManager;
+import retamrovec.finesoftware.lifesteal.Manager.DebugHandler;
 import retamrovec.finesoftware.lifesteal.Manager.Message;
 
 import java.lang.reflect.Field;
@@ -21,12 +23,14 @@ public class Beacon {
 
     private ItemStack itemStack;
     private final LifeSteal l;
-    public Beacon(LifeSteal l) {
+    private final DebugHandler debug;
+    public Beacon(LifeSteal l, DebugHandler debug) {
         this.l = l;
+        this.debug = debug;
     }
 
     public NamespacedKey key(JavaPlugin plugin){
-        return new NamespacedKey(plugin, "Revive Beacon");
+        return new NamespacedKey(plugin, "Revive-Beacon");
     }
     public void register(JavaPlugin plugin){
         itemStack = new ItemStack(Material.PLAYER_HEAD);
@@ -50,20 +54,20 @@ public class Beacon {
         itemStack.setItemMeta(meta);
 
         {
-            ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "Revive Beacon"), itemStack);
+            ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "Revive-Beacon"), itemStack);
             recipe.shape(
                     "fst",
                     "oix",
                     "egn");
-            recipe.setIngredient('f', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.first")));
-            recipe.setIngredient('s', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.second")));
-            recipe.setIngredient('t', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.third")));
-            recipe.setIngredient('o', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.fourth")));
-            recipe.setIngredient('i', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.fifth")));
-            recipe.setIngredient('x', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.sixth")));
-            recipe.setIngredient('e', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.seventh")));
-            recipe.setIngredient('g', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.eighth")));
-            recipe.setIngredient('n', Material.matchMaterial(l.getConfig().getString("revive.beacon.ingredients.ninth")));
+            recipe.setIngredient('f', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.first", l, debug)));
+            recipe.setIngredient('s', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.second", l, debug)));
+            recipe.setIngredient('t', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.third", l, debug)));
+            recipe.setIngredient('o', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.fourth", l, debug)));
+            recipe.setIngredient('i', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.fifth", l, debug)));
+            recipe.setIngredient('x', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.sixth", l, debug)));
+            recipe.setIngredient('e', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.seventh", l, debug)));
+            recipe.setIngredient('g', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.eighth", l, debug)));
+            recipe.setIngredient('n', Material.matchMaterial(ConfigManager.getString("recipe.revive.beacon.ingredients.ninth", l, debug)));
 
             Bukkit.addRecipe(recipe);
         }
@@ -83,11 +87,17 @@ public class Beacon {
     }
 
     @SuppressWarnings("deprecated")
-    public static boolean isReviveBeacon(Block block) {
+    public static boolean isReviveBeacon(Block block, DebugHandler debug) {
+        debug.init("Checking if block type is player head.");
+        debug.init("Boolean " + block.getType().equals(Material.PLAYER_HEAD));
         if (!(block.getType() == Material.PLAYER_HEAD)) return false;
         Skull sk = (Skull) block.getState();
+        debug.init("Checking skull type.");
+        debug.init("Boolean " + sk.getSkullType().equals(SkullType.PLAYER));
         if (!(sk.getSkullType().equals(SkullType.PLAYER))) return false;
         UUID profile = sk.getOwningPlayer().getUniqueId();
+        debug.init("Checking uuid of head.");
+        debug.init(profile.toString());
         return profile.equals(UUID.fromString("ff1654b0-10f2-48b6-9c05-483b75f6549e"));
     }
 
