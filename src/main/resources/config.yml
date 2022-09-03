@@ -71,11 +71,11 @@ config:
   #
   eliminate:
     commands:
-      - ban %player_name%
-      - say %player_name% is just eliminated.
+      - 'ban %player_name%'
+      - 'say %player_name% is just eliminated.'
   revive:
     commands:
-      - say %player_name% was just revived.
+      - 'say %player_name% was just revived.'
 beacons:
   example: "1, 1, 1"
 hologram:

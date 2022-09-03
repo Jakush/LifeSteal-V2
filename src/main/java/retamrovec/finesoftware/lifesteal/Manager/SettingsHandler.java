@@ -16,6 +16,7 @@ import java.util.List;
 public class SettingsHandler {
 
     private static int taskID;
+    private static LifeSteal lifeSteal;
 
     public static boolean loseHeartsOnMobs(@NotNull LifeSteal lifeSteal) {
         return lifeSteal.getConfig().getBoolean("config.lose_hearts_on_mobs");

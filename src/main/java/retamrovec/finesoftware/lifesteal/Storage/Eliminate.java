@@ -4,7 +4,9 @@ public class Eliminate {
 
     private static String eliminated;
     private static boolean status;
-    public Eliminate(String eliminated) {}
+    public Eliminate(String eliminated) {
+        Eliminate.eliminated = eliminated;
+    }
 
     public static String getEliminated() {
         return eliminated;

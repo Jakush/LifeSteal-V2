@@ -35,7 +35,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		Heart heart = new Heart(this);
 		Beacon beacon = new Beacon(this, debug);
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents(new EntityDamageByEntityListener(this), this);
+		pm.registerEvents(new EntityDamageByEntityListener(this, debug), this);
 		pm.registerEvents(new BlockPlaceListener(this, debug), this);
 		pm.registerEvents(new BlockBreakListener(this, debug), this);
 		pm.registerEvents(new PlayerItemConsumeListener(heart, this, debug), this);
@@ -49,7 +49,9 @@ public class LifeSteal extends JavaPlugin implements Listener {
 			Bukkit.getPluginManager().disablePlugin(this);
 			getLogger().info("Restart server for functionality.");
 		}
-		registerConfig();
+		getConfig().options().copyDefaults(true);
+		saveDefaultConfig();
+		saveConfig();
 		getConfig().set("plugin.version", version);
 		saveConfig();
 		getLogger().info("Config.yml was generated..");
@@ -117,16 +119,6 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.ninth")));
 		return recipe;
 	}
-	
-	private void registerConfig() {
-        File config = new File(this.getDataFolder(), "config.yml");
-        if (!config.exists()) {
-    		getLogger().info("Generating config.yml... It can take a while.");
-			getConfig().options().copyDefaults(true);
-			saveDefaultConfig();
-			saveConfig();
-        }
-    }
 	
 	@EventHandler (priority = EventPriority.HIGH)
 	private void onJoin(@NotNull PlayerJoinEvent e) {

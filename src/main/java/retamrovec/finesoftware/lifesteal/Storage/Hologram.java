@@ -6,7 +6,10 @@ public class Hologram {
 
     private static String indentifier;
     private static Location location;
-    public Hologram(String indentifier, Location location) {}
+    public Hologram(String indentifier, Location location) {
+        Hologram.indentifier = indentifier;
+        Hologram.location = location;
+    }
 
     public static String getIndentifier() {
         return indentifier;

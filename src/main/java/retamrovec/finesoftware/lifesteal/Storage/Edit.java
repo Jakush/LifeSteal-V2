@@ -6,7 +6,9 @@ public class Edit {
 
     private static boolean status = false;
     private static Player player;
-    public Edit(Player player){}
+    public Edit(Player player){
+        Edit.player = player;
+    }
 
     public static boolean getStatus(){return status;}
 
