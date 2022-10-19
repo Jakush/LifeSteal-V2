@@ -33,24 +33,22 @@ public class PlayerJoinListener implements Listener {
 		}
 		if (player.hasPlayedBefore()) {
 			if (lifesteal.getConfig().contains("player." + player.getName())) {
+				Eliminate el = new Eliminate(player.getName());
 				if (lifesteal.getConfig().getInt("player." + player.getName()) == 2 || lifesteal.getConfig().getInt("player." + player.getName()) == 1) {
-					if (player.isBanned() == false) {
+					if (!player.isBanned()) {
 						Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))), null, null);
 						player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PAPI.usePlaceholder(player, lifesteal.getConfig().getString("error.zero_health_ban"))));
-						new Eliminate(player.getName());
-						Eliminate.setStatus(true);
+						el.setStatus(true);
 					}
 				} 
 				else {
 					double playerMaxHealth = lifesteal.getConfig().getDouble("player." + player.getName());
 					
 					player.setMaxHealth(playerMaxHealth);
-					new Eliminate(player.getName());
-					if (Eliminate.getStatus()) {
+					if (el.getStatus()) {
 						OfflinePlayer target = e.getPlayer();
 						Bukkit.getBanList(BanList.Type.NAME).pardon(target.getName());
-						new Eliminate(player.getName());
-						Eliminate.setStatus(false);
+						el.setStatus(false);
 					}
 				}
 			}

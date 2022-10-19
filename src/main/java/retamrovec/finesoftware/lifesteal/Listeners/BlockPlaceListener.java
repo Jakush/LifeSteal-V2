@@ -10,6 +10,10 @@ import retamrovec.finesoftware.lifesteal.LifeSteal;
 import retamrovec.finesoftware.lifesteal.Manager.DebugHandler;
 import retamrovec.finesoftware.lifesteal.Manager.HologramHandler;
 import retamrovec.finesoftware.lifesteal.Manager.SettingsHandler;
+import retamrovec.finesoftware.lifesteal.Storage.Hologram;
+
+import java.util.List;
+import java.util.Objects;
 
 public class BlockPlaceListener implements Listener {
 
@@ -26,6 +30,19 @@ public class BlockPlaceListener implements Listener {
         debug.init("Checking block place event.");
         debug.init("Block is " + e.getBlock());
         if (Beacon.isReviveBeacon(block, debug)) {
+            List<Hologram> hs = LifeSteal.getInstance().getHologramStorage();
+            for (Hologram hologram : hs) {
+                if (hologram.getLocation() == e.getBlock().getLocation()) {
+                    e.setCancelled(true);
+                    return;
+                }
+                if (Objects.equals(hologram.getIndentifier(), e.getPlayer().getName())) {
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+            Hologram h = new Hologram(e.getPlayer().getName(), e.getBlock().getLocation());
+            h.setBoolean(true);
             String[] hologram = new String[]{
                     lifeSteal.getConfig().getString("hologram.1"),
                     lifeSteal.getConfig().getString("hologram.2"),

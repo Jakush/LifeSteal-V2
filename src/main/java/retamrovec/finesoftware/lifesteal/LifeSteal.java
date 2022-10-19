@@ -1,11 +1,9 @@
 package retamrovec.finesoftware.lifesteal;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,15 +20,27 @@ import retamrovec.finesoftware.lifesteal.Itemstacks.Beacon;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
 import retamrovec.finesoftware.lifesteal.Listeners.*;
 import retamrovec.finesoftware.lifesteal.Manager.*;
+import retamrovec.finesoftware.lifesteal.Storage.EliminatedPlayers;
+import retamrovec.finesoftware.lifesteal.Storage.Hologram;
+import retamrovec.finesoftware.lifesteal.Storage.HologramStorage;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class LifeSteal extends JavaPlugin implements Listener {
 
 	public final PluginDescriptionFile pdf = this.getDescription();
 	public final String version = pdf.getVersion();
 	private final String configVersion = getConfig().getString("plugin.version");
+	private final EliminatedPlayers eliminatedPlayers = new EliminatedPlayers();
+	private final HologramStorage hologramStorage = new HologramStorage();
+	static LifeSteal lf;
+
 	public void onEnable() {
+		lf = this;
 		CustomCraftingGUI CustomCraftingGUI = new CustomCraftingGUI(this);
-		Message Message = new Message();
+		Message message = new Message();
 		DebugHandler debug = new DebugHandler(this);
 		Heart heart = new Heart(this);
 		Beacon beacon = new Beacon(this, debug);
@@ -43,7 +53,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		pm.registerEvents(new PlayerJoinListener(this), this);
 		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this), heart, debug), this);
 		pm.registerEvents(this, this);
-		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, Message, debug, heart));
+		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, message, debug, heart));
 		getCommand("lifesteal").setTabCompleter(new HealthManagerTab(this));
 		if (getConfig().getString("plugin.version") == null || getConfig().getString("plugin.version").isEmpty()) {
 			Bukkit.getPluginManager().disablePlugin(this);
@@ -81,6 +91,8 @@ public class LifeSteal extends JavaPlugin implements Listener {
 			int pluginId = 16131;
 			Metrics metrics = new Metrics(this, pluginId);
 		}
+		eliminatedPlayers.getEliminatedPlayers().clear();
+		hologramStorage.getHologramStorage().clear();
 		debug.info(" ");
 		debug.info("|-------------------------------------------|");
 		debug.info("|                                           |");
@@ -119,7 +131,18 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		recipe.add(Material.matchMaterial(getConfig().getString("recipe.ingredients.ninth")));
 		return recipe;
 	}
-	
+
+	public List<String> getEliminatedPlayers() {
+		return eliminatedPlayers.getEliminatedPlayers();
+	}
+	public List<Hologram> getHologramStorage() {
+		return hologramStorage.getHologramStorage();
+	}
+
+	public static LifeSteal getInstance() {
+		return lf;
+	}
+
 	@EventHandler (priority = EventPriority.HIGH)
 	private void onJoin(@NotNull PlayerJoinEvent e) {
 		Player player = e.getPlayer();
@@ -127,7 +150,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		if (player.isOp() || player.hasPermission("lifesteal.admin")) {
 	        new UpdateChecker(this, 102599).getVersion(version -> {
 	            if (!configVersion.equals(version)) {
-	                if (this.getConfig().getBoolean("config.notify_op_updates") == true) {
+	                if (this.getConfig().getBoolean("config.notify_op_updates")) {
 		                player.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.update_available_notify")));
 	                }
 	            }

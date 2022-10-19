@@ -71,14 +71,14 @@ public class HealthManager implements CommandExecutor {
 				return false;
 			}
 			OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(args[1]);
-			new Eliminate(oPlayer.getName());
+			Eliminate e = new Eliminate(oPlayer.getName());
 			if (!lifesteal.getConfig().contains("player." + oPlayer.getName())) {
 				debug.error("Player " + oPlayer.getName() + " is not configuration. Cancelling event, if issue is there even after rejoin, please report it on support.");
 				return false;
 			}
 			lifesteal.getConfig().set("player." + oPlayer.getName(), 20);
 			lifesteal.saveConfig();
-			if (!Eliminate.getStatus()) {
+			if (!e.getStatus()) {
 				debug.error("Sending message.");
 				Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("error.player-is-alive"));
 				return false;

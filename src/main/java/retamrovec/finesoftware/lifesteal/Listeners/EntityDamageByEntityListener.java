@@ -22,7 +22,7 @@ public class EntityDamageByEntityListener implements Listener {
         debug.init("Entity damaging was registered.");
         debug.init("EntityType is " + e.getEntityType());
         debug.init("Entity is " + e.getEntity());
-        if (e.getEntityType() instanceof EntityType.ARMOR_STAND) {
+        if (e.getEntityType() == EntityType.ARMOR_STAND) {
             ArmorStand armorStand = (ArmorStand) e.getEntity();
             String[] hologram = new String[]{
                     lifeSteal.getConfig().getString("hologram.1"),

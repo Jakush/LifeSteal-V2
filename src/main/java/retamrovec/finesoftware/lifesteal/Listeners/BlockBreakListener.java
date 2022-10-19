@@ -10,6 +10,7 @@ import retamrovec.finesoftware.lifesteal.LifeSteal;
 import retamrovec.finesoftware.lifesteal.Manager.DebugHandler;
 import retamrovec.finesoftware.lifesteal.Manager.HologramHandler;
 import retamrovec.finesoftware.lifesteal.Manager.SettingsHandler;
+import retamrovec.finesoftware.lifesteal.Storage.Hologram;
 
 public class BlockBreakListener implements Listener {
 
@@ -24,8 +25,13 @@ public class BlockBreakListener implements Listener {
     public void onBreak(BlockBreakEvent e) {
         Block block = e.getBlock();
         if (Beacon.isReviveBeacon(block, debug)) {
-            HologramHandler.removeHologram(e.getPlayer().getName(), block.getLocation(), lifeSteal);
-            Bukkit.getServer().getScheduler().cancelTask(SettingsHandler.getTaskID());
+            for (Hologram h : lifeSteal.getHologramStorage()) {
+                if (h.getIndentifier().equals(e.getPlayer().getName())) {
+                    h.setBoolean(false);
+                    HologramHandler.removeHologram(e.getPlayer().getName(), block.getLocation(), lifeSteal);
+                    Bukkit.getServer().getScheduler().cancelTask(SettingsHandler.getTaskID());
+                }
+            }
         }
     }
 

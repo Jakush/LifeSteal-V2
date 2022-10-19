@@ -1,21 +1,25 @@
 package retamrovec.finesoftware.lifesteal.Storage;
 
+import retamrovec.finesoftware.lifesteal.LifeSteal;
+
 public class Eliminate {
 
-    private static String eliminated;
-    private static boolean status;
+    private final String eliminated;
+    private boolean status;
     public Eliminate(String eliminated) {
-        Eliminate.eliminated = eliminated;
+        this.eliminated = eliminated;
     }
 
-    public static String getEliminated() {
+    public String getEliminated() {
         return eliminated;
     }
 
-    public static boolean getStatus(){return status;}
+    public boolean getStatus(){return status;}
 
-    public static void setStatus(boolean status){
-        Eliminate.status = status;
+    public void setStatus(boolean status){
+        this.status = status;
+        if (status) LifeSteal.getInstance().getEliminatedPlayers().add(eliminated);
+        if (!status) LifeSteal.getInstance().getEliminatedPlayers().remove(eliminated);
     }
 
 }

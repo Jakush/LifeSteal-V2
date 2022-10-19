@@ -16,7 +16,6 @@ import java.util.List;
 public class SettingsHandler {
 
     private static int taskID;
-    private static LifeSteal lifeSteal;
 
     public static boolean loseHeartsOnMobs(@NotNull LifeSteal lifeSteal) {
         return lifeSteal.getConfig().getBoolean("config.lose_hearts_on_mobs");
@@ -38,8 +37,8 @@ public class SettingsHandler {
             String command = commands.get(i);
             command = PlaceholderAPI.setPlaceholders(player, command);
             Bukkit.dispatchCommand(console, command);
-            new Eliminate(player.getName());
-            Eliminate.setStatus(true);
+            Eliminate e = new Eliminate(player.getName());
+            e.setStatus(true);
         }
     }
 
@@ -59,17 +58,17 @@ public class SettingsHandler {
             String command = commands.get(i);
             command = PlaceholderAPI.setPlaceholders(player, command);
             Bukkit.dispatchCommand(console, command);
-            new Eliminate(player.getName());
-            Eliminate.setStatus(false);
+            Eliminate e = new Eliminate(player.getName());
+            e.setStatus(false);
         }
     }
 
     public static void runRevivingStatus(String name, OfflinePlayer player, LifeSteal lifeSteal) {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         taskID = scheduler.scheduleSyncDelayedTask(lifeSteal, () -> {
-            new Eliminate(name);
-            if (Eliminate.getStatus()) {
-                Eliminate.setStatus(false);
+            Eliminate e = new Eliminate(name);
+            if (LifeSteal.getInstance().getEliminatedPlayers().contains(player.getName())) {
+                e.setStatus(false);
                 runReviveCommands(lifeSteal, player);
             }
         }, 300L);

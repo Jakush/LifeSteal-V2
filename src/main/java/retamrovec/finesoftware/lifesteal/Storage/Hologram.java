@@ -4,22 +4,33 @@ import org.bukkit.Location;
 
 public class Hologram {
 
-    private static String indentifier;
-    private static Location location;
+    private String indentifier;
+    private Location location;
+    private boolean beacon;
     public Hologram(String indentifier, Location location) {
-        Hologram.indentifier = indentifier;
-        Hologram.location = location;
+        this.indentifier = indentifier;
+        this.location = location;
+
+
     }
 
-    public static String getIndentifier() {
+    public String getIndentifier() {
         return indentifier;
     }
 
-    public static void setIndentifier(String id) {
-        Hologram.indentifier = id;
+    public void setIndentifier(String id) {
+        this.indentifier = id;
     }
 
-    public static Location getLocation() {
+    public Location getLocation() {
         return location;
+    }
+
+    public void setBoolean(Boolean bol) {
+        this.beacon = bol;
+    }
+
+    public boolean hasBeacon(){
+        return beacon;
     }
 }
