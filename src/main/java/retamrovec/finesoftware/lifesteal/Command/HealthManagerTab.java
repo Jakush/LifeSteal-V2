@@ -32,6 +32,8 @@ public class HealthManagerTab implements TabCompleter {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				names.add(player.getName());
 			}
+			names.add("beacon");
+			names.add("heart");
 			return StringUtil.copyPartialMatches(args[1], names, tab);
 		}
 		if (args.length == 3) {

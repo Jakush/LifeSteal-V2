@@ -3,7 +3,6 @@ package retamrovec.finesoftware.lifesteal;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,21 +19,22 @@ import retamrovec.finesoftware.lifesteal.Itemstacks.Beacon;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
 import retamrovec.finesoftware.lifesteal.Listeners.*;
 import retamrovec.finesoftware.lifesteal.Manager.*;
+import retamrovec.finesoftware.lifesteal.Storage.Edit;
 import retamrovec.finesoftware.lifesteal.Storage.EliminatedPlayers;
 import retamrovec.finesoftware.lifesteal.Storage.Hologram;
 import retamrovec.finesoftware.lifesteal.Storage.HologramStorage;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class LifeSteal extends JavaPlugin implements Listener {
 
 	public final PluginDescriptionFile pdf = this.getDescription();
 	public final String version = pdf.getVersion();
-	private final String configVersion = getConfig().getString("plugin.version");
 	private final EliminatedPlayers eliminatedPlayers = new EliminatedPlayers();
 	private final HologramStorage hologramStorage = new HologramStorage();
+	private final Edit edit = new Edit();
 	static LifeSteal lf;
 
 	public void onEnable() {
@@ -46,26 +46,25 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		Beacon beacon = new Beacon(this, debug);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new EntityDamageByEntityListener(this, debug), this);
-		pm.registerEvents(new BlockPlaceListener(this, debug), this);
+		pm.registerEvents(new BlockPlaceListener(debug), this);
 		pm.registerEvents(new BlockBreakListener(this, debug), this);
 		pm.registerEvents(new PlayerItemConsumeListener(heart, this, debug), this);
 		pm.registerEvents(new PlayerDeathListener(this, debug), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
-		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this), heart, debug), this);
+		pm.registerEvents(new InventoryClickListener(this, new CustomCraftingGUI(this), heart, debug, beacon), this);
 		pm.registerEvents(this, this);
 		getCommand("lifesteal").setExecutor(new HealthManager(this, CustomCraftingGUI, message, debug, heart));
 		getCommand("lifesteal").setTabCompleter(new HealthManagerTab(this));
-		if (getConfig().getString("plugin.version") == null || getConfig().getString("plugin.version").isEmpty()) {
+		File file = new File(getDataFolder(), "config.yml");
+		if (!file.exists() || file.length() < 2) {
 			Bukkit.getPluginManager().disablePlugin(this);
 			getLogger().info("Restart server for functionality.");
+			getConfig().options().copyDefaults(true);
+			saveConfig();
 		}
-		getConfig().options().copyDefaults(true);
-		saveDefaultConfig();
-		saveConfig();
-		getConfig().set("plugin.version", version);
 		saveConfig();
 		getLogger().info("Config.yml was generated..");
-		getLogger().info(ChatColor.translateAlternateColorCodes('&', "Version (" + configVersion + ") has been enabled."));
+		getLogger().info(ChatColor.translateAlternateColorCodes('&', "Version (" + version + ") has been enabled."));
 		heart.init(this);
 		beacon.init(this);
 		PAPI.init();
@@ -76,17 +75,19 @@ public class LifeSteal extends JavaPlugin implements Listener {
 			throw new RuntimeException(e);
 		}
 
+		/*
 		new UpdateChecker(this, 102599).getVersion(version -> {
-			if (configVersion.equals(version)) {
+			if (this.version.equals(version)) {
 				getLogger().info("Plugin version is the latest");
 			} else {
 				getLogger().info("Plugin version is not latest. Please update this plugin.");
 			}
 			if (this.getConfig().getBoolean("developer.enable")) {
 				getLogger().info("Latest version is " + version);
-				getLogger().info("Your version is " + configVersion);
+				getLogger().info("Your version is " + this.version);
 			}
 		});
+		 */
 		if (getConfig().getBoolean("config.bStats")) {
 			int pluginId = 16131;
 			Metrics metrics = new Metrics(this, pluginId);
@@ -138,6 +139,9 @@ public class LifeSteal extends JavaPlugin implements Listener {
 	public List<Hologram> getHologramStorage() {
 		return hologramStorage.getHologramStorage();
 	}
+	public List<Player> getEdit() {
+		return edit.getEditors();
+	}
 
 	public static LifeSteal getInstance() {
 		return lf;
@@ -146,10 +150,9 @@ public class LifeSteal extends JavaPlugin implements Listener {
 	@EventHandler (priority = EventPriority.HIGH)
 	private void onJoin(@NotNull PlayerJoinEvent e) {
 		Player player = e.getPlayer();
-		String configVersion = getConfig().getString("plugin.version");
 		if (player.isOp() || player.hasPermission("lifesteal.admin")) {
 	        new UpdateChecker(this, 102599).getVersion(version -> {
-	            if (!configVersion.equals(version)) {
+	            if (!this.version.equals(version)) {
 	                if (this.getConfig().getBoolean("config.notify_op_updates")) {
 		                player.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.update_available_notify")));
 	                }

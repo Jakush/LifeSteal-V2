@@ -18,11 +18,7 @@ public class CustomCraftingGUI {
 	
 	public Inventory CreateHeartInventory() {
 		Inventory inv = Bukkit.createInventory(null, InventoryType.WORKBENCH, ChatColor.translateAlternateColorCodes('&', "&cHeart &arecipe"));
-		
-		// Gold_Ingot | Diamond         | Gold_Ingot
-		// Diamond    | Netherite_Ingot | Diamond
-		// Gold_Ingot | Diamond         | Gold_Ingot
-		
+
 		inv.setItem(1, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.first"))));
 		inv.setItem(2, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.second"))));
 		inv.setItem(3, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.ingredients.third"))));
@@ -35,9 +31,28 @@ public class CustomCraftingGUI {
 		
 		return inv;
 	}
-	
+
+	public Inventory CreateBeaconInventory() {
+		Inventory inv = Bukkit.createInventory(null, InventoryType.WORKBENCH, ChatColor.translateAlternateColorCodes('&', "&9Beacon &arecipe"));
+
+		inv.setItem(1, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.first"))));
+		inv.setItem(2, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.second"))));
+		inv.setItem(3, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.third"))));
+		inv.setItem(4, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.fourth"))));
+		inv.setItem(5, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.fifth"))));
+		inv.setItem(6, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.sixth"))));
+		inv.setItem(7, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.seventh"))));
+		inv.setItem(8, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.eighth"))));
+		inv.setItem(9, new ItemStack(Material.matchMaterial(l.getConfig().getString("recipe.revive.beacon.ingredients.ninth"))));
+
+		return inv;
+	}
+
 	public void OpenHeartInventory(Player p) {
 		p.openInventory(CreateHeartInventory());
+	}
+	public void OpenBeaconInventory(Player p) {
+		p.openInventory(CreateBeaconInventory());
 	}
 
 }

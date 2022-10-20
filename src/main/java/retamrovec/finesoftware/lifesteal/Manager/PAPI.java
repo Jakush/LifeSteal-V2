@@ -4,7 +4,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
@@ -39,7 +38,9 @@ public class PAPI extends PlaceholderExpansion {
     public static void init() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             Bukkit.getLogger().warning("Could not find PlaceholderAPI! Please install this plugin so you can use placeholders in config.yml. You probably get");
+            return;
         }
+        new PAPI(LifeSteal.getInstance());
     }
 
     public static @NotNull String usePlaceholder(Player player, String string) {

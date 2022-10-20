@@ -86,7 +86,6 @@ public class Beacon {
         return item.hasItemMeta() && item.getItemMeta().hasLore() && item.getItemMeta().getLore().contains(Message.colour("&7Place this and setup revive for player!"));
     }
 
-    @SuppressWarnings("deprecated")
     public static boolean isReviveBeacon(Block block, DebugHandler debug) {
         debug.init("Checking if block type is player head.");
         debug.init("Boolean " + block.getType().equals(Material.PLAYER_HEAD));

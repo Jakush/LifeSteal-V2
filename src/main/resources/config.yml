@@ -1,8 +1,6 @@
 #
 # Author: RETAMROVEC
 #
-plugin:
-  version: null
 error:
   amount_not_exist: '&cLS &a>> &7Write amount of hearts you want to give to another
     player, each two numbers equals one heart!'
@@ -20,6 +18,7 @@ error:
   unknown-error: '&cThere is unexpected error! Please report this to server admins for more!'
   player-is-null: '&cLS &a>> &7This target is offline or null.'
 messages:
+  beacon_expired: '&cLS &a>> &7Your beacon has expired.'
   changed_amount_of_health: '&cLS &a>> &7Amount of health has been changed.'
   heart_get: '&cLS &a>> &7You get one new heart.'
   config_reloaded: '&cLS &a>> &7Config has been successfully reloaded!'
@@ -84,7 +83,7 @@ hologram:
   #
   1: "&b&lRevive Beacon"
   2: "&7You must wait &c%lifesteal_revive_count% &7seconds"
-  3: "&7for revive!"
+  3: "&7for revive! You can be revived until &c%lifesteal_beacon_timer%"
 recipe:
   #
   # This section is for people, who need own recipe.

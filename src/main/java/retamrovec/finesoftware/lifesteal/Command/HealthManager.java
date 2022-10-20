@@ -7,12 +7,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import retamrovec.finesoftware.lifesteal.*;
 import retamrovec.finesoftware.lifesteal.Events.CommandUseEvent;
 import retamrovec.finesoftware.lifesteal.Events.PlayerReviveEvent;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
+import retamrovec.finesoftware.lifesteal.LifeSteal;
 import retamrovec.finesoftware.lifesteal.Manager.*;
-import retamrovec.finesoftware.lifesteal.Storage.Edit;
 import retamrovec.finesoftware.lifesteal.Storage.Eliminate;
 
 public class HealthManager implements CommandExecutor {
@@ -31,7 +30,6 @@ public class HealthManager implements CommandExecutor {
 	}
 
 	@Override
-	@Deprecated
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
 		// Command /lifesteal
 		if (args.length == 0) {
@@ -83,7 +81,7 @@ public class HealthManager implements CommandExecutor {
 				Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("error.player-is-alive"));
 				return false;
 			}
-			SettingsHandler.runReviveCommands(lifesteal, oPlayer);
+			SettingsHandler.runReviveCommands(lifesteal, oPlayer.getName());
 			debug.init("Sending message.");
 			Message.colorCodesPAPI(sender, oPlayer, lifesteal.getConfig().getString("messages.player-revived"));
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
@@ -345,14 +343,31 @@ public class HealthManager implements CommandExecutor {
 			// Making and casting sender to player
 			Player player = (Player) sender;
 			// Creating inventory and then opening
-			ccg.CreateHeartInventory();
+			if (args.length == 1) {
+				ccg.OpenHeartInventory(player);
+				Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
+				CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+				return false;
+			}
+			if (args[1].equalsIgnoreCase("beacon")) {
+				Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
+				ccg.OpenBeaconInventory(player);
+				CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+				return false;
+			}
+			if (args[1].equalsIgnoreCase("heart")) {
+				Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
+				ccg.OpenHeartInventory(player);
+				CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+				return false;
+			}
 			ccg.OpenHeartInventory(player);
-			// Message
 			Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
 			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
-			if (!commandUseEvent.isCancelled()) {
-				Bukkit.getPluginManager().callEvent(commandUseEvent);
-			}
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 		if (args[0].equalsIgnoreCase("editRecipe") || args[0].equalsIgnoreCase("edit")) {
@@ -367,14 +382,36 @@ public class HealthManager implements CommandExecutor {
 			Player player = (Player) sender;
 			// Creating option for editing recipe
 			debug.init("Creating option to edit recipe.");
-			new Edit(player);
-			Edit.setStatus(true);
 			debug.init("Opening inventory.");
-			// Creating inventory and then opening
-			ccg.CreateHeartInventory();
-			ccg.OpenHeartInventory(player);
-			// Message
-			Message.colorCodesPAPI((Player) sender, lifesteal.getConfig().getString("messages.recipe_showed"));
+			if (args.length == 1) {
+				Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
+				ccg.OpenHeartInventory(player);
+				LifeSteal.getInstance().getEdit().add(player);
+				CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+				return false;
+			}
+			if (args[1].equalsIgnoreCase("beacon")) {
+				Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
+				ccg.OpenBeaconInventory(player);
+				LifeSteal.getInstance().getEdit().add(player);
+				CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+				return false;
+			}
+			if (args[1].equalsIgnoreCase("heart")) {
+				Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
+				ccg.OpenHeartInventory(player);
+				LifeSteal.getInstance().getEdit().add(player);
+				CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+				Bukkit.getPluginManager().callEvent(commandUseEvent);
+				return false;
+			}
+			Message.colorCodesPAPI(player, lifesteal.getConfig().getString("messages.recipe_showed"));
+			ccg.OpenBeaconInventory(player);
+			LifeSteal.getInstance().getEdit().add(player);
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			Bukkit.getPluginManager().callEvent(commandUseEvent);
 			return true;
 		}
 			/* @Deprecated

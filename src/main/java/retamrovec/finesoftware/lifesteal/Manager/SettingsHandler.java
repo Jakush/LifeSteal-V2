@@ -2,7 +2,6 @@ package retamrovec.finesoftware.lifesteal.Manager;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -42,7 +41,7 @@ public class SettingsHandler {
         }
     }
 
-    public static void runReviveCommands(@NotNull LifeSteal lifeSteal, OfflinePlayer player) {
+    public static void runReviveCommands(@NotNull LifeSteal lifeSteal, String player) {
         if (lifeSteal.getConfig().getString("config.revive.commands").equals("''") || lifeSteal.getConfig().getString("config.revive.commands") == null) {
             return;
         }
@@ -56,20 +55,20 @@ public class SettingsHandler {
             List<String> commands = new ArrayList<>(lifeSteal.getConfig().getStringList("config.revive.commands"));
             ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
             String command = commands.get(i);
-            command = PlaceholderAPI.setPlaceholders(player, command);
+            command = PlaceholderAPI.setPlaceholders(Bukkit.getOfflinePlayer(player), command);
             Bukkit.dispatchCommand(console, command);
-            Eliminate e = new Eliminate(player.getName());
+            Eliminate e = new Eliminate(player);
             e.setStatus(false);
         }
     }
 
-    public static void runRevivingStatus(String name, OfflinePlayer player, LifeSteal lifeSteal) {
+    public static void runRevivingStatus(String name, LifeSteal lifeSteal) {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         taskID = scheduler.scheduleSyncDelayedTask(lifeSteal, () -> {
             Eliminate e = new Eliminate(name);
-            if (LifeSteal.getInstance().getEliminatedPlayers().contains(player.getName())) {
+            if (LifeSteal.getInstance().getEliminatedPlayers().contains(name)) {
                 e.setStatus(false);
-                runReviveCommands(lifeSteal, player);
+                runReviveCommands(lifeSteal, name);
             }
         }, 300L);
     }

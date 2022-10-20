@@ -2,18 +2,14 @@ package retamrovec.finesoftware.lifesteal.Storage;
 
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Edit {
 
-    private static boolean status = false;
-    private static Player player;
-    public Edit(Player player){
-        Edit.player = player;
+    private List<Player> editors = new ArrayList<>();
+
+    public List<Player> getEditors() {
+        return editors;
     }
-
-    public static boolean getStatus(){return status;}
-
-    public static void setStatus(boolean status){
-        Edit.status = status;}
-
-    public static Player getPlayer(){return player;}
 }
