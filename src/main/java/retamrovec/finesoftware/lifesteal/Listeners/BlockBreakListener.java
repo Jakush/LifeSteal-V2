@@ -16,7 +16,6 @@ import retamrovec.finesoftware.lifesteal.Manager.SettingsHandler;
 import retamrovec.finesoftware.lifesteal.Storage.Hologram;
 
 import java.util.List;
-import java.util.Random;
 
 public class BlockBreakListener implements Listener {
 

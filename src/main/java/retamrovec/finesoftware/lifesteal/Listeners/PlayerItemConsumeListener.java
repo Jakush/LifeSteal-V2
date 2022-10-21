@@ -62,7 +62,7 @@ public class PlayerItemConsumeListener implements Listener {
             e.getPlayer().setMaxHealth(lifeSteal.getConfig().getInt("player." + e.getPlayer().getName()));
             debug.init("Setting new values in-game.");
             Player player = e.getPlayer();
-            Inventory inventory = (Inventory) e.getPlayer().getInventory();
+            Inventory inventory = e.getPlayer().getInventory();
             BInventory.removeItem(inventory, e.getItem());
             debug.init("Removing 1x heart item.");
             player.updateInventory();

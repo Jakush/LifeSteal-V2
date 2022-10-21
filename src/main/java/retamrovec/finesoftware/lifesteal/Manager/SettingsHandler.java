@@ -21,36 +21,25 @@ public class SettingsHandler {
     }
 
     public static void runEliminateCommands(@NotNull LifeSteal lifeSteal, Player player) {
-        if (lifeSteal.getConfig().getString("config.eliminate.commands").equals("''") || lifeSteal.getConfig().getString("config.eliminate.commands") == null) {
-            return;
-        }
-        if (lifeSteal.getConfig().getStringList("config.eliminate.commands").isEmpty()) {
-            return;
-        }
-        if (lifeSteal.getConfig().getStringList("config.eliminate.commands").size() < 1) {
-            return;
-        }
+        if (lifeSteal.getConfig().getString("config.eliminate.commands").equals("''") || lifeSteal.getConfig().getString("config.eliminate.commands") == null) return;
+        if (lifeSteal.getConfig().getStringList("config.eliminate.commands").isEmpty()) return;
+        if (lifeSteal.getConfig().getStringList("config.eliminate.commands").size() < 1) return;
         for (int i = 0; i < lifeSteal.getConfig().getStringList("config.eliminate.commands").size(); i++) {
             List<String> commands = new ArrayList<>(lifeSteal.getConfig().getStringList("config.eliminate.commands"));
             ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
             String command = commands.get(i);
             command = PlaceholderAPI.setPlaceholders(player, command);
-            Bukkit.dispatchCommand(console, command);
+            String formatted = command.replace("%player_name%", player.getName());
+            Bukkit.dispatchCommand(console, formatted);
             Eliminate e = new Eliminate(player.getName());
             e.setStatus(true);
         }
     }
 
     public static void runReviveCommands(@NotNull LifeSteal lifeSteal, String player) {
-        if (lifeSteal.getConfig().getString("config.revive.commands").equals("''") || lifeSteal.getConfig().getString("config.revive.commands") == null) {
-            return;
-        }
-        if (lifeSteal.getConfig().getStringList("config.revive.commands").isEmpty()) {
-            return;
-        }
-        if (lifeSteal.getConfig().getStringList("config.revive.commands").size() < 1) {
-            return;
-        }
+        if (lifeSteal.getConfig().getString("config.revive.commands").equals("''") || lifeSteal.getConfig().getString("config.revive.commands") == null) return;
+        if (lifeSteal.getConfig().getStringList("config.revive.commands").isEmpty()) return;
+        if (lifeSteal.getConfig().getStringList("config.revive.commands").size() < 1) return;
         for (int i = 0; i < lifeSteal.getConfig().getStringList("config.revive.commands").size(); i++) {
             List<String> commands = new ArrayList<>(lifeSteal.getConfig().getStringList("config.revive.commands"));
             ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();

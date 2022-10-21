@@ -7,8 +7,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Beacon;
 import retamrovec.finesoftware.lifesteal.LifeSteal;
 import retamrovec.finesoftware.lifesteal.Manager.DebugHandler;
-import retamrovec.finesoftware.lifesteal.Runnables.HologramRunnable;
-import retamrovec.finesoftware.lifesteal.Runnables.ReviveRunnable;
 import retamrovec.finesoftware.lifesteal.Storage.Hologram;
 
 import java.util.List;
