@@ -322,11 +322,14 @@ public class HealthManager implements CommandExecutor {
 			// Setting amount of hearts in config for sender and target (saveConfig is very important)!
 			lifesteal.getConfig().set("player." + target.getName(), target.getMaxHealth() + amount);
 			lifesteal.saveConfig();
+			LifeSteal.getInstance().getSendAmountStorage().put(target.getName(), lifesteal.getConfig().getInt("player." + target.getName()) + amount);
 			lifesteal.getConfig().set("player." + name, senderPlayer.getMaxHealth() - amount);
 			lifesteal.saveConfig();
+			LifeSteal.getInstance().getSendAmountStorage().put(senderPlayer.getName(), lifesteal.getConfig().getInt("player." + senderPlayer.getName()) - amount);
 			// Messages with placeholders {target}, {sender}, {amount}, {prefix} and {suffix}
 			Message.colorCodesPAPI(senderPlayer, lifesteal.getConfig().getString("messages.hearts_sent"));
-			Message.colorCodesPAPI(target, lifesteal.getConfig().getString("messages.hearts_get"));CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
+			Message.colorCodesPAPI(target, lifesteal.getConfig().getString("messages.hearts_get"));
+			CommandUseEvent commandUseEvent = new CommandUseEvent(sender, args);
 			if (!commandUseEvent.isCancelled()) {
 				Bukkit.getPluginManager().callEvent(commandUseEvent);
 			}

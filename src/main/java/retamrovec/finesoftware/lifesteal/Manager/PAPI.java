@@ -35,6 +35,17 @@ public class PAPI extends PlaceholderExpansion {
         return true;
     }
 
+    @Override
+    public String onRequest(OfflinePlayer player, String params) {
+        if (params.equalsIgnoreCase("newAmount")) {
+            double newAmount = LifeSteal.getInstance().getSendAmountStorage().get(player.getName());
+            LifeSteal.getInstance().getSendAmountStorage().clear();
+            return String.valueOf(newAmount);
+        }
+
+        return null;
+    }
+
     public static void init() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             Bukkit.getLogger().warning("Could not find PlaceholderAPI! Please install this plugin so you can use placeholders in config.yml. You probably get");

@@ -19,13 +19,11 @@ import retamrovec.finesoftware.lifesteal.Itemstacks.Beacon;
 import retamrovec.finesoftware.lifesteal.Itemstacks.Heart;
 import retamrovec.finesoftware.lifesteal.Listeners.*;
 import retamrovec.finesoftware.lifesteal.Manager.*;
-import retamrovec.finesoftware.lifesteal.Storage.Edit;
-import retamrovec.finesoftware.lifesteal.Storage.EliminatedPlayers;
-import retamrovec.finesoftware.lifesteal.Storage.Hologram;
-import retamrovec.finesoftware.lifesteal.Storage.HologramStorage;
+import retamrovec.finesoftware.lifesteal.Storage.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LifeSteal extends JavaPlugin implements Listener {
@@ -35,6 +33,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 	private final EliminatedPlayers eliminatedPlayers = new EliminatedPlayers();
 	private final HologramStorage hologramStorage = new HologramStorage();
 	private final Edit edit = new Edit();
+	private final SendAmountStorage sendAmountStorage = new SendAmountStorage();
 	static LifeSteal lf;
 
 	public void onEnable() {
@@ -94,6 +93,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 		}
 		eliminatedPlayers.getEliminatedPlayers().clear();
 		hologramStorage.getHologramStorage().clear();
+		sendAmountStorage.getStorage().clear();
 		debug.info(" ");
 		debug.info("|-------------------------------------------|");
 		debug.info("|                                           |");
@@ -142,6 +142,7 @@ public class LifeSteal extends JavaPlugin implements Listener {
 	public List<Player> getEdit() {
 		return edit.getEditors();
 	}
+	public HashMap<String, Double> getSendAmountStorage() { return sendAmountStorage.getStorage(); }
 
 	public static LifeSteal getInstance() {
 		return lf;
